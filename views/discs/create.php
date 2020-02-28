@@ -1,5 +1,4 @@
 <?php
-require_once "../../models/connection.php";
 require_once "../../controllers/discs/create.php";
 ?>
 
@@ -66,12 +65,12 @@ require_once "../../controllers/discs/create.php";
                 <div class="col s12 file-field input-field">
                     <div class="btn deep-orange lighten-1">
                         <span>Image</span>
-                        <input type="file">
+                        <input name="image" id="image" type="file">
                     </div>
                     <div class="file-path-wrapper">
                         <!-- TODO  Renommer l'ID en quelque de mieux quand même -->
                         <label for="filePath"></label>
-                        <input class="file-path validate" name="filePath" id="filePath" type="text">
+                        <input class="file-path validate" data-error="<?= ?>" name="filePath" id="filePath" type="text">
                     </div>
                 </div>
             </div>

@@ -1,5 +1,4 @@
 <?php
-require_once "../../models/connection.php";
 require_once "../../controllers/discs/list.php";
 ?>
 

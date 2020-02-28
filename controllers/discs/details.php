@@ -1,4 +1,6 @@
 <?php
+require_once "../../models/connection.php";
+
 // Sets the page's title
 $title = "Velvet Records - Détails";
 
@@ -19,3 +21,6 @@ $stmt->execute();
 
 // Fetches the disc with the given ID
 $disc = $stmt->fetch();
+
+// Closes the cursor
+$stmt->closeCursor();

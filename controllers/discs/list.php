@@ -1,4 +1,6 @@
 <?php
+require_once "../../models/connection.php";
+
 // Sets the page's title
 $title = "Velvet Records - Liste des disques";
 
@@ -13,3 +15,6 @@ $stmt->execute();
 
 // Fetches all the discs from the prepared statement as an Object
 $discs = $stmt->fetchAll();
+
+// Closes the cursor
+$stmt->closeCursor();
