@@ -26,13 +26,11 @@ require_once "../../controllers/discs/list.php";
                     <div class="card-content">
                         <div class="center-align row">
                             <p class="flow-text" id="artistName"><?= $disc->artist_name ?></p>
-                            <div class="col s12 m6">
-                                <p><strong>Année</strong>: <?= $disc->disc_year ?></p>
-                                <p><strong>Label</strong>: <?= $disc->disc_label ?></p>
-                            </div>
-                            <div class="col s12 m6">
-                                <p><strong>Genre</strong>: <?= $disc->disc_genre ?></p>
-                                <p><strong>Prix</strong>: <?= $disc->disc_price ?>€</p>
+                            <div class="col s12">
+                                <p><b>Année</b>: <?= $disc->disc_year ?></p>
+                                <p><b>Label</b>: <?= $disc->disc_label ?></p>
+                                <p><b>Genre</b>: <?= $disc->disc_genre ?></p>
+                                <p><b>Prix</b>: <?= $disc->disc_price ?>€</p>
                             </div>
                         </div>
                     </div>
@@ -40,7 +38,8 @@ require_once "../../controllers/discs/list.php";
                         <a
                             class="btn deep-orange lighten-1"
                             id="detailsButton"
-                            href="details.php?disc_id=<?= $disc->disc_id ?>">
+                            href="details.php?disc_id=<?= $disc->disc_id ?>"
+                        >
                             Détails
                         </a>
                     </div>

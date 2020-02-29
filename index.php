@@ -35,7 +35,7 @@
     </nav>
 </header>
 
-<!-- TODO:  -->
+<!-- TODO: Créer la page d'accueil avec top 3 -->
 <h1 class="center-align">Accueil WIP</h1>
 
 <script src="assets/js/vendors/materialize.min.js"></script>

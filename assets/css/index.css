@@ -23,6 +23,17 @@ h2 {
     object-fit: none;
 }
 
+/* Changes the dropdown background and text color */
+ul.dropdown-content.select-dropdown li span {
+    background-color: #ff5722;
+    color: white;
+}
+
+/* Changes the dropdown color on hover */
+ul.dropdown-content.select-dropdown li span:hover {
+    background-color: #bf360c;
+}
+
 /* ID's */
 #artistName {
     margin-bottom: 5%;

@@ -30,11 +30,9 @@ class Database
                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ
                 ];
                 // Creates an instance of the PDO object
-                self::$instance = new PDO("mysql:host=localhost;dbname=record;charset=utf8", "root", "root", $options);
+                self::$instance = new PDO("mysql:host=localhost;dbname=record;charset=utf8", "root", "10495", $options);
             } catch (PDOException $e) {
-                echo "Erreur : " . $e->getMessage() . "<br>";
-                echo "N° : " . $e->getCode();
-                die("La connexion n'a pas pu être établie.");
+                die($e->getMessage());
             }
         }
         // Otherwise it returns the already created instance

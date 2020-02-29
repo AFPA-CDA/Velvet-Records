@@ -1,14 +1,24 @@
 <?php
 require_once "../../models/connection.php";
 
+/* Page Variables Section */
+
 // Sets the page's title
 $title = "Velvet Records - Détails";
+
+/* -------------------------------------------------------------------------------- */
+
+
+/* Database Section */
 
 // Gets the database instance
 $db = Database::getInstance();
 
+// The SELECT query
+$request = "SELECT disc.*, artist_name FROM disc INNER JOIN artist a on disc.artist_id = a.artist_id WHERE disc_id = :disc_id";
+
 // Prepares the statement for execution and returns the statement object
-$stmt = $db->prepare("SELECT disc.*, artist_name FROM disc INNER JOIN artist a on disc.artist_id = a.artist_id WHERE disc_id = :disc_id");
+$stmt = $db->prepare($request);
 
 // Grabs the GET input and filters it
 $disc_id = filter_input(INPUT_GET, 'disc_id', FILTER_SANITIZE_NUMBER_INT);
@@ -24,3 +34,5 @@ $disc = $stmt->fetch();
 
 // Closes the cursor
 $stmt->closeCursor();
+
+/* -------------------------------------------------------------------------------- */
