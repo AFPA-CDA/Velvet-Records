@@ -1,4 +1,7 @@
+# Editors
 .idea
+
+# Project related
 assets/img/*.jpeg
 assets/img/*.jpg
 assets/img/*.png
