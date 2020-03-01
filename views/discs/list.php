@@ -18,14 +18,15 @@ require_once "../../controllers/discs/list.php";
                     <div class="card-image">
                         <img
                             alt="Image du disque"
-                            class="responsive-img materialboxed"
+                            class="responsive-img"
                             src="../../assets/img/<?= $disc->disc_picture ?>"
                         >
-                        <span class="card-title"><?= $disc->disc_title ?></span>
                     </div>
                     <div class="card-content">
                         <div class="center-align row">
-                            <p class="flow-text" id="artistName"><?= $disc->artist_name ?></p>
+                            <p class="flow-text" id="artistName">
+                                <?= $disc->artist_name ?> (<?= $disc->disc_title ?>)
+                            </p>
                             <div class="col s12">
                                 <p><b>Année</b>: <?= $disc->disc_year ?></p>
                                 <p><b>Label</b>: <?= $disc->disc_label ?></p>

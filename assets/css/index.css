@@ -8,19 +8,9 @@ h2 {
 }
 
 /* Classes */
-.card-title {
-    mix-blend-mode: exclusion;
-}
-
 .card img {
-    max-height: 300px;
+    height: 50vh;
     object-fit: cover;
-}
-
-/* Makes sure the materialbox show the entire image */
-.card img.materialboxed.active {
-    max-height: none;
-    object-fit: none;
 }
 
 /* label focus color */
@@ -45,12 +35,17 @@ ul.dropdown-content.select-dropdown li span:hover {
     background-color: #bf360c;
 }
 
-
 /* ID's */
 #artistName {
     margin-bottom: 5%;
 }
 
+/* Makes the detail button full width */
 #detailsButton {
+    width: 100%;
+}
+
+/* Makes the preview image full width */
+#imagePreview {
     width: 100%;
 }

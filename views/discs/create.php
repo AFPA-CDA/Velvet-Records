@@ -84,8 +84,9 @@ require_once "../../controllers/discs/create.php";
                 <div class="col s12">
                     <img
                         alt="Image de prévisualisation"
+                        class="responsive-img"
                         id="imagePreview"
-                        src="https://via.placeholder.com/600?text=Prévisualisation de la photo"
+                        src="https://via.placeholder.com/728x190?text=Prévisualisation de la photo"
                     >
                 </div>
             </div>
@@ -107,6 +108,7 @@ require_once "../../controllers/discs/create.php";
 </main>
 
 <?php include_once "../templates/footer.php" ?>
+<script src="../../assets/js/vendors/sweetalert2.min.js"></script>
 <script src="../../assets/js/discs/create.js"></script>
 </body>
 </html>

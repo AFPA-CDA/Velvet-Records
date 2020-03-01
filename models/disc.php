@@ -101,9 +101,9 @@ function getArtistsOrderByName(PDO $pdo): array
 /**
  * @param PDO $pdo The database connection to use
  * @param int $discId The disc id
- * @return bool The disc details
+ * @return object The disc details
  */
-function getDiscDetails(PDO $pdo, int $discId)
+function getDiscDetails(PDO $pdo, int $discId): object
 {
     try {
         // The SELECT query
@@ -126,6 +126,31 @@ function getDiscDetails(PDO $pdo, int $discId)
 
         // Returns the disc details
         return $disc;
+    } catch (Exception $e) {
+        die($e->getMessage());
+    }
+}
+
+function getDiscsList(PDO $pdo)
+{
+    try {
+        // The SELECT query
+        $request = "SELECT disc.*, artist_name FROM disc INNER JOIN artist a on disc.artist_id = a.artist_id ORDER BY disc_id DESC";
+
+        // Prepares the statement for execution and returns the statement object
+        $stmt = $pdo->prepare($request);
+
+        // Executes the prepared statement
+        $stmt->execute();
+
+        // Fetches all the discs from the prepared statement as an Object
+        $discs = $stmt->fetchAll();
+
+        // Closes the cursor
+        $stmt->closeCursor();
+
+        // Returns discs list
+        return $discs;
     } catch (Exception $e) {
         die($e->getMessage());
     }

@@ -59,7 +59,7 @@ require_once "../../controllers/discs/details.php";
             </div>
             <!-- Fourth Row -->
             <div class="row">
-                <div class="col s12 m6">
+                <div class="col s12 m12">
                     <img
                         alt="Image du disque"
                         class="responsive-img"
@@ -78,16 +78,22 @@ require_once "../../controllers/discs/details.php";
                 <li><a class="waves-effect waves-light" href="list.php"><i class="material-icons">undo</i></a></li>
                 <li><a class="waves-effect waves-light" href="update.php"><i class="material-icons">edit</i></a></li>
                 <li>
-                    <a class="waves-effect waves-light" href="delete.php?disc_id=<?= $disc->disc_id ?>">
+                    <a
+                        class="waves-effect waves-light"
+                        data-id="<?= $disc->disc_id ?>"
+                        href="#"
+                        id="deleteButton"
+                    >
                         <i class="material-icons">delete_forever</i>
                     </a>
                 </li>
             </ul>
         </div>
     </div>
-
 </main>
 
 <?php include_once "../templates/footer.php" ?>
+<script src="../../assets/js/vendors/sweetalert2.min.js"></script>
+<script src="../../assets/js/discs/details.js"></script>
 </body>
 </html>

@@ -5,13 +5,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // On image change
   image.addEventListener("change", function () {
-    // Creates a new
+    // Creates a new FileReader
     const reader = new FileReader();
 
     // Handles reader on load event
     reader.onload = function (e) {
+      // Sets the image preview src to the current image being selected
       imagePreview.src = e.target.result;
-      imagePreview.style.width = "50%";
     };
 
     // Reads the file as a data URL
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Here lies all the regex used for this form
     const isAlpha = /^[\wÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ'’\s-]+$/i;
     const isAllowedExtension = /(\.jpg|\.jpeg|\.png)$/i;
-    const isCorrectPrice = /^(\d{1,4}[.])?\d{2}$/;
+    const isCorrectPrice = /^(\d{0,4}[.]?)\d{0,2}$/;
     const isYear = /^[1-2]\d{3}$/;
 
     // Here lies all the elements used for the form
@@ -149,8 +149,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // If there aren't any errors
     if (!hasErrors.includes(true)) {
-      // Send the form
-      document.forms["createDisc"].submit();
+      // Shows the user that the disc has been created
+      Swal.fire("Créée", "Le disque a été créée !", "success").then(_ => {
+        // Send the form
+        document.forms["createDisc"].submit();
+      });
     }
   })
 });
