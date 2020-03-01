@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection ALL */
+/** @noinspection ALL */
 require_once "../../models/connection.php";
 require_once "../../models/disc.php";
 

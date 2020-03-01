@@ -11,7 +11,12 @@ require_once "../../controllers/discs/update.php";
 <main role="main">
     <div class="container">
         <h1 class="center-align">Modification</h1>
-        <form action="../../controllers/discs/update.php?disc_id=<?= $disc->disc_id ?>" enctype="multipart/form-data" method="post">
+        <form
+            action="../../controllers/discs/update.php?disc_id=<?= $disc->disc_id ?>"
+            enctype="multipart/form-data"
+            method="post"
+            id="updateDisc"
+        >
             <!-- First Row -->
             <div class="row">
                 <div class="col s12 input-field">
@@ -79,7 +84,8 @@ require_once "../../controllers/discs/update.php";
                     </div>
                     <div class="file-path-wrapper">
                         <label for="filePath"></label>
-                        <input class="file-path" name="filePath" id="filePath" type="text" value="<?= $disc->disc_picture ?>">
+                        <input class="file-path" name="filePath" id="filePath" type="text"
+                               value="<?= $disc->disc_picture ?>">
                         <span class="helper-text red-text"></span>
                     </div>
                 </div>

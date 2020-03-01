@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const hasErrors = [];
 
     // Here lies all the regex used for this form
-    const isAlpha = /^[\wÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ'’,\s-]+$/i;
+    const isAlphaNumeric = /^[\wÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ'’,/\s-]+$/i;
     const isAllowedExtension = /(\.jpg|\.jpeg|\.png)$/i;
     const isCorrectPrice = /^(\d{0,4}[.]?)\d{0,2}$/;
     const isYear = /^[1-2]\d{3}$/;
@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const yearError = year.nextElementSibling;
 
     // If the value is not empty and not valid
-    if (isAlpha.test(title.value) === false && title.value !== "") {
+    if (isAlphaNumeric.test(title.value) === false && title.value !== "") {
       titleError.textContent = "Le titre n'est pas valide.";
       titleError.style.display = "inline";
       hasErrors[0] = true;
@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
       hasErrors[2] = false;
     }
 
-    if (isAlpha.test(genre.value) === false && genre.value !== "") {
+    if (isAlphaNumeric.test(genre.value) === false && genre.value !== "") {
       genreError.textContent = "Le genre n'est pas valide.";
       genreError.style.display = "inline";
       hasErrors[3] = true;
@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function () {
       hasErrors[3] = false;
     }
 
-    if (isAlpha.test(label.value) === false && label.value !== "") {
+    if (isAlphaNumeric.test(label.value) === false && label.value !== "") {
       labelError.textContent = "Le label n'est pas valide.";
       labelError.style.display = "inline";
       hasErrors[4] = true;
@@ -155,12 +155,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // If there aren't any errors
     if (!hasErrors.includes(true)) {
-      // Shows the user that the disc has been created
-      // TODO: Séparer les deux modifier sweet alert puis rajouter pour confirmer edit et demander si ils sont sûrs
-      Swal.fire("Mis à jour", "Le disque a été mis à jour !", "success").then(_ => {
-        // Send the form
-        document.forms[0].submit();
-      });
+      if (document.forms["updateDisc"]) {
+        // Shows the user that the disc has been updated
+        Swal.fire("Mis à jour", "Le disque a été mis à jour !", "success").then(_ => {
+          // Send the form
+          document.forms["updateDisc"].submit();
+        });
+      }
+
+      if (document.forms["createDisc"]) {
+        // Shows the user that the disc has been created
+        Swal.fire("Créée", "Le disque a été créée !", "success").then(_ => {
+          // Send the form
+          document.forms["createDisc"].submit();
+        });
+      }
     }
   })
 });
