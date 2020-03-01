@@ -24,7 +24,7 @@ $artists = getArtistsOrderByName($db);
 /* Form Handling Section */
 
 // Here lies all the forms variables
-$artistId = $errMessage = $genre = $label = $price = $year = $title = "";
+$artistId = $genre = $label = $price = $year = $title = "";
 
 // List of allowed mime types
 $allowedMimeTypes = ["image/jpg", "image/jpeg", "image/pjpeg", "image/png", "image/x-png"];
@@ -114,5 +114,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($_FILES["image"]["error"])) {
         // Prints the error message to the user
         echo $fileMessages[$_FILES["image"]["error"]];
+    }
+
+    // If the file has an allowed mime type and the file size exceeds 2MB
+    if (in_array($mimeType, $allowedMimeTypes) && ($_FILES["image"]["size"] / 1024 / 1024) > 2) {
+        // Prints the error message to the user
+        echo "Le fichier ne peut pas dépasser 2MB !";
     }
 }

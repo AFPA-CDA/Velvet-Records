@@ -11,7 +11,9 @@ function createDisc(PDO $pdo, array $items): void
         $pdo->beginTransaction();
 
         // The INSERT request
-        $request = "INSERT INTO disc (disc_title, disc_year, disc_picture, disc_label, disc_genre, disc_price, artist_id) VALUE (:name, :year, :picture, :label, :genre, :price, :artist_id)";
+        $request = "INSERT INTO disc 
+                    (disc_title, disc_year, disc_picture, disc_label, disc_genre, disc_price, artist_id) 
+                    VALUE (:name, :year, :picture, :label, :genre, :price, :artist_id)";
 
         // Prepares the statement for execution and returns the statement object
         $insert = $pdo->prepare($request);
@@ -107,7 +109,11 @@ function getDiscDetails(PDO $pdo, int $discId): object
 {
     try {
         // The SELECT query
-        $request = "SELECT disc.*, artist_name FROM disc INNER JOIN artist a on disc.artist_id = a.artist_id WHERE disc_id = :disc_id";
+        $request = "SELECT disc.*, artist_name 
+                    FROM disc 
+                    INNER JOIN artist a 
+                    ON disc.artist_id = a.artist_id 
+                    WHERE disc_id = :disc_id";
 
         // Prepares the statement for execution and returns the statement object
         $stmt = $pdo->prepare($request);
@@ -131,11 +137,19 @@ function getDiscDetails(PDO $pdo, int $discId): object
     }
 }
 
-function getDiscsList(PDO $pdo)
+/**
+ * @param PDO $pdo The database connection to use
+ * @return array The list of discs
+ */
+function getDiscsList(PDO $pdo): array
 {
     try {
         // The SELECT query
-        $request = "SELECT disc.*, artist_name FROM disc INNER JOIN artist a on disc.artist_id = a.artist_id ORDER BY disc_id DESC";
+        $request = "SELECT disc.*, artist_name 
+                    FROM disc 
+                    INNER JOIN artist a 
+                    ON disc.artist_id = a.artist_id 
+                    ORDER BY disc_id DESC";
 
         // Prepares the statement for execution and returns the statement object
         $stmt = $pdo->prepare($request);
@@ -152,6 +166,44 @@ function getDiscsList(PDO $pdo)
         // Returns discs list
         return $discs;
     } catch (Exception $e) {
+        die($e->getMessage());
+    }
+}
+
+/**
+ * @param PDO $pdo The database connection to use
+ * @param array $items The array with the SQL UPDATE items
+ */
+function updateDisc(PDO $pdo, array $items): void
+{
+    try {
+        $pdo->beginTransaction();
+
+        // The UPDATE query
+        $request = "UPDATE disc
+                    INNER JOIN artist a 
+                    ON disc.artist_id = a.artist_id
+                    SET disc_genre = :genre,
+                        disc_label = :label, 
+                        disc_picture = :picture,
+                        disc_price = :price, 
+                        disc_title = :title, 
+                        disc_year = :year,
+                        a.artist_id = :artist_id
+                    WHERE disc_id = :disc_id";
+
+        // Prepares the statement for execution and returns the statement object
+        $stmt = $pdo->prepare($request);
+
+        // Executes the prepared statement
+        $stmt->execute($items);
+
+        // Closes the cursor
+        $stmt->closeCursor();
+
+        $pdo->commit();
+    } catch (Exception $e) {
+        $pdo->rollBack();
         die($e->getMessage());
     }
 }

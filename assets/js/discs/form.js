@@ -18,8 +18,8 @@ document.addEventListener("DOMContentLoaded", function () {
     reader.readAsDataURL(this.files[0]);
   });
 
-  // On createDisc form submit
-  document.forms["createDisc"].addEventListener("submit", function (e) {
+  // On form submit
+  document.forms[0].addEventListener("submit", function (e) {
     // It prevents the form being submitted if there is any error
     e.preventDefault();
 
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const hasErrors = [];
 
     // Here lies all the regex used for this form
-    const isAlpha = /^[\wÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ'’\s-]+$/i;
+    const isAlpha = /^[\wÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ'’,\s-]+$/i;
     const isAllowedExtension = /(\.jpg|\.jpeg|\.png)$/i;
     const isCorrectPrice = /^(\d{0,4}[.]?)\d{0,2}$/;
     const isYear = /^[1-2]\d{3}$/;
@@ -141,18 +141,25 @@ document.addEventListener("DOMContentLoaded", function () {
       filePathError.textContent = "L'image est requise.";
       filePathError.style.display = "inline";
       hasErrors[6] = true;
+    } else if (image.files[0] && isAllowedExtension.test(filePath.value) && (image.files[0].size / 1024 / 1024) > 2) {
+      // If the image has an allowed extension and the image size exceeds 2MB and
+      filePathError.textContent = "L'image est trop large ! > 2MB";
+      filePathError.style.display = "inline";
+      hasErrors[6] = true;
     } else {
       filePathError.textContent = "";
       filePathError.style.display = "none";
       hasErrors[6] = false;
     }
 
+
     // If there aren't any errors
     if (!hasErrors.includes(true)) {
       // Shows the user that the disc has been created
-      Swal.fire("Créée", "Le disque a été créée !", "success").then(_ => {
+      // TODO: Séparer les deux modifier sweet alert puis rajouter pour confirmer edit et demander si ils sont sûrs
+      Swal.fire("Mis à jour", "Le disque a été mis à jour !", "success").then(_ => {
         // Send the form
-        document.forms["createDisc"].submit();
+        document.forms[0].submit();
       });
     }
   })

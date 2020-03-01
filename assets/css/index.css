@@ -47,5 +47,6 @@ ul.dropdown-content.select-dropdown li span:hover {
 
 /* Makes the preview image full width */
 #imagePreview {
+    max-height: 100%;
     width: 100%;
 }

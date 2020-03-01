@@ -109,6 +109,6 @@ require_once "../../controllers/discs/create.php";
 
 <?php include_once "../templates/footer.php" ?>
 <script src="../../assets/js/vendors/sweetalert2.min.js"></script>
-<script src="../../assets/js/discs/create.js"></script>
+<script src="../../assets/js/discs/form.js"></script>
 </body>
 </html>
