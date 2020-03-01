@@ -23,6 +23,17 @@ h2 {
     object-fit: none;
 }
 
+/* label focus color */
+.input-field input[type=text]:focus + label {
+    color: #ff5722 !important;
+}
+
+/* label underline focus color */
+.input-field input[type=text]:focus {
+    border-bottom: 1px solid #ff5722 !important;
+    box-shadow: 0 1px 0 0 #ff5722 !important;
+}
+
 /* Changes the dropdown background and text color */
 ul.dropdown-content.select-dropdown li span {
     background-color: #ff5722;
@@ -33,6 +44,7 @@ ul.dropdown-content.select-dropdown li span {
 ul.dropdown-content.select-dropdown li span:hover {
     background-color: #bf360c;
 }
+
 
 /* ID's */
 #artistName {

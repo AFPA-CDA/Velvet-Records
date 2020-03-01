@@ -3,7 +3,7 @@
 // Creates a Singleton class that helps retrieving the Database connection
 class Database
 {
-    protected static $instance;
+    protected static $PDOInstance;
 
     protected function __construct()
     {
@@ -15,7 +15,7 @@ class Database
     public static function getInstance(): PDO
     {
         // If the instance does not exist yet it creates it
-        if (empty(self::$instance)) {
+        if (!isset(self::$PDOInstance)) {
             // The try catch block is used to run code and catch the errors uf there are any
             try {
                 // Array of the used options for the PDO instance
@@ -29,13 +29,15 @@ class Database
                     // Sets the default fetch mode to FETCH_OBJ
                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ
                 ];
+
                 // Creates an instance of the PDO object
-                self::$instance = new PDO("mysql:host=localhost;dbname=record;charset=utf8", "root", "10495", $options);
+                self::$PDOInstance = new PDO("mysql:host=localhost;dbname=record;charset=utf8", "root", "10495", $options);
             } catch (PDOException $e) {
                 die($e->getMessage());
             }
         }
+
         // Otherwise it returns the already created instance
-        return self::$instance;
+        return self::$PDOInstance;
     }
 }

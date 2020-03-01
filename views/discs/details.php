@@ -78,7 +78,7 @@ require_once "../../controllers/discs/details.php";
                 <li><a class="waves-effect waves-light" href="list.php"><i class="material-icons">undo</i></a></li>
                 <li><a class="waves-effect waves-light" href="update.php"><i class="material-icons">edit</i></a></li>
                 <li>
-                    <a class="waves-effect waves-light" href="delete.php">
+                    <a class="waves-effect waves-light" href="delete.php?disc_id=<?= $disc->disc_id ?>">
                         <i class="material-icons">delete_forever</i>
                     </a>
                 </li>

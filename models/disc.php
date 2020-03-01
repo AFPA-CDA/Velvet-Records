@@ -4,7 +4,7 @@
  * @param PDO $pdo The database connection to use
  * @param array $items The array with the SQL INSERT parameters
  */
-function createDisc(PDO $pdo, array $items)
+function createDisc(PDO $pdo, array $items): void
 {
     try {
         // Begins the SQL TRANSACTION
@@ -29,6 +29,104 @@ function createDisc(PDO $pdo, array $items)
         $pdo->rollBack();
 
         // Stops the script after giving the error message
+        die($e->getMessage());
+    }
+}
+
+/**
+ * @param PDO $pdo The database connection to use
+ * @param int $discId The disc id
+ */
+function deleteDisc(PDO $pdo, int $discId): void
+{
+    try {
+        // Begins the SQL TRANSACTION
+        $pdo->beginTransaction();
+
+        // The DELETE request
+        $request = "DELETE FROM disc WHERE disc_id = :disc_id";
+
+        // Prepares the statement for execution and returns the statement object
+        $delete = $pdo->prepare($request);
+
+        // Binds the disc_id parameter to the disc_id variable
+        $delete->bindParam(":disc_id", $discId, PDO::PARAM_INT);
+
+        // Execute the prepared statement
+        $delete->execute();
+
+        // Closes the cursor
+        $delete->closeCursor();
+
+        // Nothing went wrong so it commits the changes to the DB
+        $pdo->commit();
+    } catch (Exception $e) {
+        // Something went wrong so it rollbaks the changes
+        $pdo->rollBack();
+
+        // Stops the script after giving the error message
+        die($e->getMessage());
+    }
+}
+
+/**
+ * @param PDO $pdo The database connection to use
+ * @return array The artists array
+ */
+function getArtistsOrderByName(PDO $pdo): array
+{
+    try {
+        // The SELECT query
+        $request = "SELECT * FROM artist ORDER BY artist_name";
+
+        // Prepares the statement for execution and returns the statement object
+        $stmt = $pdo->prepare($request);
+
+        // Executes the prepared statement
+        $stmt->execute();
+
+        // Fetches all the artists
+        $artists = $stmt->fetchAll();
+
+        // Closes the cursor
+        $stmt->closeCursor();
+
+        // Returns the result of the fetchAll
+        return $artists;
+    } catch (Exception $e) {
+        die($e->getMessage());
+    }
+}
+
+/**
+ * @param PDO $pdo The database connection to use
+ * @param int $discId The disc id
+ * @return bool The disc details
+ */
+function getDiscDetails(PDO $pdo, int $discId)
+{
+    try {
+        // The SELECT query
+        $request = "SELECT disc.*, artist_name FROM disc INNER JOIN artist a on disc.artist_id = a.artist_id WHERE disc_id = :disc_id";
+
+        // Prepares the statement for execution and returns the statement object
+        $stmt = $pdo->prepare($request);
+
+        // Binds the disc_id parameter to the disc_id variable
+        $stmt->bindParam(":disc_id", $discId, PDO::PARAM_INT);
+
+        // Executes the prepared statement
+        $stmt->execute();
+
+        // Fetches the disc with the given ID
+        $disc = $stmt->fetch();
+
+        // Closes the cursor
+        $stmt->closeCursor();
+
+        // Returns the disc details
+        return $disc;
+    } catch (Exception $e) {
         die($e->getMessage());
     }
 }

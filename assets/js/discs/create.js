@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Handles reader on load event
     reader.onload = function (e) {
       imagePreview.src = e.target.result;
+      imagePreview.style.width = "50%";
     };
 
     // Reads the file as a data URL
@@ -28,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Here lies all the regex used for this form
     const isAlpha = /^[\wÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ'’\s-]+$/i;
     const isAllowedExtension = /(\.jpg|\.jpeg|\.png)$/i;
-    const isNumeric = /^(\d{1,4}[.])?\d{2}$/;
+    const isCorrectPrice = /^(\d{1,4}[.])?\d{2}$/;
     const isYear = /^[1-2]\d{3}$/;
 
     // Here lies all the elements used for the form
@@ -118,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function () {
       hasErrors[4] = false;
     }
 
-    if (isNumeric.test(price.value) === false && price.value !== "") {
+    if (isCorrectPrice.test(price.value) === false && price.value !== "") {
       priceError.textContent = "Le prix n'est pas valide.";
       priceError.style.display = "inline";
       hasErrors[5] = true;

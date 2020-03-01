@@ -15,20 +15,8 @@ $title = "Velvet Records - Ajout d'un disque";
 // Gets the database instance
 $db = Database::getInstance();
 
-// The SELECT query
-$request = "SELECT * FROM artist ORDER BY artist_name";
-
-// Prepares the statement for execution and returns the statement object
-$stmt = $db->prepare($request);
-
-// Executes the prepared statement
-$stmt->execute();
-
-// Fetches all the artists
-$artists = $stmt->fetchAll();
-
-// Closes the cursor
-$stmt->closeCursor();
+// Get all artists ordered by their name
+$artists = getArtistsOrderByName($db);
 
 /* -------------------------------------------------------------------------------- */
 
