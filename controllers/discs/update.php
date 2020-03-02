@@ -1,5 +1,4 @@
-<?php /** @noinspection ALL */
-/** @noinspection ALL */
+<?php
 require_once "../../models/connection.php";
 require_once "../../models/disc.php";
 
@@ -99,7 +98,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Deletes the old disc picture from the server
         unlink(realpath("../../assets/img/{$disc->disc_picture}"));
-
 
         // Updates the disc with the form data given by the user
         updateDisc($db, [

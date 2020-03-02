@@ -9,6 +9,7 @@
             </a>
             <!-- Links -->
             <ul class="left hide-on-med-and-down">
+                <li><a href="../artists/list.php">Artistes</a></li>
                 <li><a href="../discs/list.php">Disques</a></li>
             </ul>
         </div>
@@ -17,6 +18,7 @@
         <div aria-labelledby="mobile-nav" role="navigation">
             <ul class="sidenav" id="mobile-nav">
                 <li><a href="../../index.php">Accueil</a></li>
+                <li><a href="../artists/list.php">Artistes</a></li>
                 <li><a href="../discs/list.php">Disques</a></li>
             </ul>
         </div>

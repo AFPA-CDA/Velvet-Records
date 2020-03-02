@@ -1,6 +1,4 @@
-<?php
-require_once "../../controllers/discs/list.php";
-?>
+<?php require_once "../../controllers/discs/list.php"; ?>
 
 <!doctype html>
 <html lang="fr">

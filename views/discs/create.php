@@ -1,6 +1,4 @@
-<?php
-require_once "../../controllers/discs/create.php";
-?>
+<?php require_once "../../controllers/discs/create.php"; ?>
 
 <!doctype html>
 <html lang="fr">

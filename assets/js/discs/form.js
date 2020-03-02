@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const isAlphaNumeric = /^[\wÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ'’,/\s-]+$/i;
     const isAllowedExtension = /(\.jpg|\.jpeg|\.png)$/i;
     const isCorrectPrice = /^(\d{0,4}[.]?)\d{0,2}$/;
-    const isYear = /^[1-2]\d{3}$/;
+    const isYear = /^(19|20)\d{2}$/;
 
     // Here lies all the elements used for the form
     const artists = document.getElementById("artists");

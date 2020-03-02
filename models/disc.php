@@ -177,6 +177,7 @@ function getDiscsList(PDO $pdo): array
 function updateDisc(PDO $pdo, array $items): void
 {
     try {
+        // Begins the SQL TRANSACTION
         $pdo->beginTransaction();
 
         // The UPDATE query
@@ -201,6 +202,7 @@ function updateDisc(PDO $pdo, array $items): void
         // Closes the cursor
         $stmt->closeCursor();
 
+        // Nothing went wrong so it commits the changes to the DB
         $pdo->commit();
     } catch (Exception $e) {
         $pdo->rollBack();

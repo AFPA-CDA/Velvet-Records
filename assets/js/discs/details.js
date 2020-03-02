@@ -22,7 +22,7 @@ deleteButton.addEventListener("click", function () {
       // Shows to the user that the disc has been deleted
       Swal.fire("Supprimé", "Le disque à été supprimé.", "success").then(_ => {
         // Redirects to the delete controller to delete the disc in the database
-        window.location.href = `../../../controllers/discs/delete.php?disc_id=${discId}`
+        window.location.href = `../../controllers/discs/delete.php?disc_id=${discId}`
       })
     }
   })

@@ -31,7 +31,7 @@ class Database
                 ];
 
                 // Creates an instance of the PDO object
-                self::$PDOInstance = new PDO("mysql:host=localhost;dbname=record;charset=utf8", "root", "10495", $options);
+                self::$PDOInstance = new PDO("mysql:host=localhost;dbname=record;charset=utf8", "root", "root", $options);
             } catch (PDOException $e) {
                 die($e->getMessage());
             }
