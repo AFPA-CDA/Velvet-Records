@@ -4,6 +4,13 @@ require_once "../../models/disc.php";
 
 /* Page Variables Section */
 
+// Here lies the regexes used for this form
+const IS_ALPHA_NUMERIC = "/^[\w\W\s\dÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]+$/i";
+const IS_ALLOWED_EXTENSION = "/(\.jpg|\.jpeg|\.png)$/i";
+const IS_CORRECT_PRICE = "/^(\d{0,4}[.]?)\d{0,2}$/";
+const IS_YEAR = "/^(19|20)\d{2}$/";
+
+
 // Sets the page's title
 $title = "Velvet Records - Modification du disque";
 
@@ -16,7 +23,7 @@ $title = "Velvet Records - Modification du disque";
 $artist = new Artist();
 
 // Creates a new Disc model instance
-$discDetails = new Disc();
+$disc = new Disc();
 
 // Gets all the artists orderd by their names
 $artists = $artist->getArtistsOrderByName();
@@ -41,18 +48,20 @@ $allowedMimeTypes = ["image/jpg", "image/jpeg", "image/pjpeg", "image/png", "ima
 // Returns true is the file exists
 $fileExists = isset($_FILES) ? count($_FILES) : 0;
 
-
 // List of error messages
 $fileMessages = array(
     UPLOAD_ERR_OK => "Il n'y a pas d'erreur, le fichier a été téléchargé avec succès",
-    UPLOAD_ERR_INI_SIZE => 'Le fichier téléchargé dépasse la directive upload_max_filesize de php.ini',
-    UPLOAD_ERR_FORM_SIZE => 'Le fichier téléchargé dépasse la directive MAX_FILE_SIZE qui a été spécifiée dans le formulaire HTML',
+    UPLOAD_ERR_INI_SIZE => 'Le fichier téléchargé dépasse 2 MB',
+    UPLOAD_ERR_FORM_SIZE => 'Le fichier téléchargé dépasse 2 MB',
     UPLOAD_ERR_PARTIAL => 'Le fichier choisi n\'a été que partiellement téléchargé',
     UPLOAD_ERR_NO_FILE => 'Aucun fichier n\'a été choisi',
     UPLOAD_ERR_NO_TMP_DIR => 'Il manque un dossier temporaire',
     UPLOAD_ERR_CANT_WRITE => 'Impossible d\'écrire le fichier sur le disque',
     UPLOAD_ERR_EXTENSION => 'Une extension PHP a arrêté le téléchargement du fichier'
 );
+
+// An array filled the with the form input errors
+$formErrors = [];
 
 // If the request method used is POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -63,23 +72,61 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (isset($_POST["genre"])) {
-        $genre = filter_input(INPUT_POST, "genre", FILTER_SANITIZE_SPECIAL_CHARS);
+        if (preg_match(IS_ALPHA_NUMERIC, $_POST["genre"])) {
+            $genre = filter_input(INPUT_POST, "genre", FILTER_SANITIZE_SPECIAL_CHARS);
+        } else if (empty($_POST["genre"])) {
+            $formErrors["genre"] = "Le genre est requis.";
+        } else {
+            $formErrors["genre"] = "Le genre n'est pas valide.";
+        }
+
+    }
+
+    if (isset($_POST["filePath"])) {
+        if (!preg_match(IS_ALLOWED_EXTENSION, $_POST["filePath"])) {
+            $formErrors["filePath"] = "Seuls les extensions [jpg|jpeg|png] sont autorisées.";
+        }
     }
 
     if (isset($_POST["label"])) {
-        $label = filter_input(INPUT_POST, "label", FILTER_SANITIZE_SPECIAL_CHARS);
+        if (preg_match(IS_ALPHA_NUMERIC, $_POST["label"])) {
+            $label = filter_input(INPUT_POST, "label", FILTER_SANITIZE_SPECIAL_CHARS);
+        } else if (empty($_POST["label"])) {
+            $formErrors["label"] = "Le label est requis.";
+        } else {
+            $formErrors["label"] = "Le label n'est pas valide.";
+        }
     }
 
     if (isset($_POST["price"])) {
-        $price = filter_input(INPUT_POST, "price", FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+        if (preg_match(IS_CORRECT_PRICE, $_POST["price"])) {
+            // Remettre flaf TODO:
+            $price = filter_input(INPUT_POST, "price", FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+        } else if (empty($_POST["price"])) {
+            $formErrors["price"] = "Le prix est requis.";
+        } else {
+            $formErrors["price"] = "Le prix n'est pas valide.";
+        }
     }
 
     if (isset($_POST["year"])) {
-        $year = filter_input(INPUT_POST, "year", FILTER_SANITIZE_NUMBER_INT);
+        if (preg_match(IS_YEAR, $_POST["year"])) {
+            $year = filter_input(INPUT_POST, "year", FILTER_SANITIZE_NUMBER_INT);
+        } else if (empty($_POST["year"])) {
+            $formErrors["year"] = "L'année est requise.";
+        } else {
+            $formErrors["year"] = "L'année n'est pas valide.";
+        }
     }
 
     if (isset($_POST["title"])) {
-        $title = filter_input(INPUT_POST, "title", FILTER_SANITIZE_SPECIAL_CHARS);
+        if (preg_match(IS_ALPHA_NUMERIC, $_POST["title"])) {
+            $title = filter_input(INPUT_POST, "title", FILTER_SANITIZE_SPECIAL_CHARS);
+        } else if (empty($_POST["title"])) {
+            $formErrors["title"] = "Le titre est requis.";
+        } else {
+            $formErrors["title"] = "Le titre n'est pas valide.";
+        }
     }
 
     // Reads the file informations if the file exists
@@ -90,8 +137,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mimeType = null;
     }
 
-    // Checks that there is no error and that the mime type is allowed
-    if ($_FILES["image"]["error"] == UPLOAD_ERR_OK && in_array($mimeType, $allowedMimeTypes)) {
+    // If the file don't have an allowed mime type and there's no error
+    if (!in_array($mimeType, $allowedMimeTypes) && empty($_FILES["image"]["error"])) {
+        // Stores the error message in the formErrors array
+        $formErrors["image"] = "Le format ." . pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION) . " n'est pas supporté.";
+    }
+
+
+    // Checks that there is no error in the form and image and that the mime type is allowed
+    if ($_FILES["image"]["error"] == UPLOAD_ERR_OK && in_array($mimeType, $allowedMimeTypes) && empty($formErrors)) {
         $extension = pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION);
         $path = realpath("../../assets/img/");
         $name = basename($title);
@@ -118,16 +172,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: ../../views/discs/list.php");
     }
 
-    // If the file don't have an allowed mime type and there's no error
-    if (!in_array($mimeType, $allowedMimeTypes) && empty($_FILES["image"]["error"])) {
-        // Prints an error message to the user
-        echo "Le format " . basename($mimeType) . "est pas supporté.";
-    }
-
     // If there is any errors
     if (!empty($_FILES["image"]["error"])) {
         // If the user don't give an image we keep the old one
-        if ($_FILES["image"]["error"] === UPLOAD_ERR_NO_FILE) {
+        if ($_FILES["image"]["error"] === UPLOAD_ERR_NO_FILE && empty($formErrors)) {
             // Updates the disc with the form data given by the user
             $disc->updateDisc([
                 ":year" => $year,
@@ -143,15 +191,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Redirects the user to the discs list view
             header("Location: ../../views/discs/list.php");
         }
-
-        // Prints the error message to the user
-        echo $fileMessages[$_FILES["image"]["error"]];
-    }
-
-    // If the file has an allowed mime type and the file size exceeds 2MB
-    if (in_array($mimeType, $allowedMimeTypes) && ($_FILES["image"]["size"] / 1024 / 1024) > 2) {
-        // Prints the error message to the user
-        echo "Le fichier ne peut pas dépasser 2MB !";
+        // Stores the error message in the formErrors array
+        $formErrors["image"] = $fileMessages[$_FILES["image"]["error"]];
     }
 }
 
