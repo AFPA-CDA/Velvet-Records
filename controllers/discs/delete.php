@@ -1,23 +1,22 @@
 <?php
-require_once "../../models/connection.php";
 require_once "../../models/disc.php";
 
 /* Database Section */
 
-// Gets the database instance
-$db = Database::getInstance();
+// Creates a new Disc model instance
+$disc = new Disc();
 
 // Filters the input to make sure it is safe to use
 $discId = filter_input(INPUT_GET, "disc_id", FILTER_SANITIZE_NUMBER_INT);
 
 // Get disc details
-$disc = getDiscDetails($db, $discId);
+$discDetails = $disc->getDiscDetails($discId);
 
 // Deletes the disc picture from the server
-unlink(realpath("../../assets/img/{$disc->disc_picture}"));
+unlink(realpath("../../assets/img/{$discDetails->disc_picture}"));
 
 // Deletes the disc with the given discId
-deleteDisc($db, $discId);
+$disc->deleteDisc($discId);
 
 // Redirects the user to the discs list page
 header("Location: ../../views/discs/list.php");

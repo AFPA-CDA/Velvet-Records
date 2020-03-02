@@ -1,5 +1,4 @@
 <?php
-require_once "../../models/connection.php";
 require_once "../../models/disc.php";
 
 /* Page Variables Section */
@@ -12,7 +11,8 @@ $title = "Velvet Records - Liste des disques";
 
 /* Database Section */
 
-// Gets the database instance
-$db = Database::getInstance();
+// Creates a new Disc model instace
+$disc = new Disc();
 
-$discs = getDiscsList($db);
+// Gets the list of all discs
+$discs = $disc->getDiscsList();

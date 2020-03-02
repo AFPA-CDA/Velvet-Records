@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const hasErrors = [];
 
     // Here lies all the regex used for this form
-    const isAlphaNumeric = /^[\wÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ'’,/\s-]+$/i;
+    const isAlphaNumeric = /^[\w\sÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ'’]+$/i;
     const isAllowedExtension = /(\.jpg|\.jpeg|\.png)$/i;
     const isCorrectPrice = /^(\d{0,4}[.]?)\d{0,2}$/;
     const isYear = /^(19|20)\d{2}$/;

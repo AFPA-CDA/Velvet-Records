@@ -10,7 +10,7 @@
     <div class="container">
         <h1 class="center-align">Modification</h1>
         <form
-            action="../../controllers/discs/update.php?disc_id=<?= $disc->disc_id ?>"
+            action="../../controllers/discs/update.php?disc_id=<?= $discDetails->disc_id ?>"
             enctype="multipart/form-data"
             method="post"
             id="updateDisc"
@@ -19,7 +19,7 @@
             <div class="row">
                 <div class="col s12 input-field">
                     <label for="title">Titre</label>
-                    <input name="title" id="title" type="text" value="<?= $disc->disc_title ?>">
+                    <input name="title" id="title" type="text" value="<?= $discDetails->disc_title ?>">
                     <span class="helper-text red-text"></span>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                         <option disabled value="">Veuillez choisir un artiste</option>
                         <?php foreach ($artists as $artist): ?>
                             <!-- If the artist id is the same -->
-                            <?php if ($artist->artist_id === $disc->artist_id): ?>
+                            <?php if ($artist->artist_id === $discDetails->artist_id): ?>
                                 <option value="<?= $artist->artist_id ?>" selected><?= $artist->artist_name ?></option>
                             <?php else: ?>
                                 <option value="<?= $artist->artist_id ?>"><?= $artist->artist_name ?></option>
@@ -45,7 +45,7 @@
             <div class="row">
                 <div class="col s12 input-field">
                     <label for="year">Année</label>
-                    <input name="year" id="year" type="text" value="<?= $disc->disc_year ?>">
+                    <input name="year" id="year" type="text" value="<?= $discDetails->disc_year ?>">
                     <span class="helper-text red-text"></span>
                 </div>
             </div>
@@ -53,7 +53,7 @@
             <div class="row">
                 <div class="col s12 input-field">
                     <label for="genre">Genre</label>
-                    <input name="genre" id="genre" type="text" value="<?= $disc->disc_genre ?>">
+                    <input name="genre" id="genre" type="text" value="<?= $discDetails->disc_genre ?>">
                     <span class="helper-text red-text"></span>
                 </div>
             </div>
@@ -61,7 +61,7 @@
             <div class="row">
                 <div class="col s12 input-field">
                     <label for="label">Label</label>
-                    <input name="label" id="label" type="text" value="<?= $disc->disc_label ?>">
+                    <input name="label" id="label" type="text" value="<?= $discDetails->disc_label ?>">
                     <span class="helper-text red-text"></span>
                 </div>
             </div>
@@ -69,7 +69,7 @@
             <div class="row">
                 <div class="col s12 input-field">
                     <label for="price">Prix</label>
-                    <input name="price" id="price" type="text" value="<?= $disc->disc_price ?>">
+                    <input name="price" id="price" type="text" value="<?= $discDetails->disc_price ?>">
                     <span class="helper-text red-text"></span>
                 </div>
             </div>
@@ -83,7 +83,7 @@
                     <div class="file-path-wrapper">
                         <label for="filePath"></label>
                         <input class="file-path" name="filePath" id="filePath" type="text"
-                               value="<?= $disc->disc_picture ?>">
+                               value="<?= $discDetails->disc_picture ?>">
                         <span class="helper-text red-text"></span>
                     </div>
                 </div>
@@ -95,7 +95,7 @@
                         alt="Image de prévisualisation"
                         class="responsive-img"
                         id="imagePreview"
-                        src="../../assets/img/<?= $disc->disc_picture ?>"
+                        src="../../assets/img/<?= $discDetails->disc_picture ?>"
                     >
                 </div>
             </div>

@@ -1,5 +1,5 @@
 <?php
-require_once "../../models/connection.php";
+require_once "../../models/artist.php";
 require_once "../../models/disc.php";
 
 /* Page Variables Section */
@@ -12,17 +12,20 @@ $title = "Velvet Records - Modification du disque";
 
 /* Database Section */
 
-// Gets the database instance
-$db = Database::getInstance();
+// Creates a new Artist model instance
+$artist = new Artist();
+
+// Creates a new Disc model instance
+$discDetails = new Disc();
 
 // Gets all the artists orderd by their names
-$artists = getArtistsOrderByName($db);
+$artists = $artist->getArtistsOrderByName();
 
 // Grabs the GET input and filters it
 $discId = filter_input(INPUT_GET, 'disc_id', FILTER_SANITIZE_NUMBER_INT);
 
 // Returns the disc details
-$disc = getDiscDetails($db, $discId);
+$discDetails = $disc->getDiscDetails($discId);
 
 /* -------------------------------------------------------------------------------- */
 
@@ -60,11 +63,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (isset($_POST["genre"])) {
-        $genre = filter_input(INPUT_POST, "genre", FILTER_SANITIZE_STRING);
+        $genre = filter_input(INPUT_POST, "genre", FILTER_SANITIZE_SPECIAL_CHARS);
     }
 
     if (isset($_POST["label"])) {
-        $label = filter_input(INPUT_POST, "label", FILTER_SANITIZE_STRING);
+        $label = filter_input(INPUT_POST, "label", FILTER_SANITIZE_SPECIAL_CHARS);
     }
 
     if (isset($_POST["price"])) {
@@ -76,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (isset($_POST["title"])) {
-        $title = filter_input(INPUT_POST, "title", FILTER_SANITIZE_STRING);
+        $title = filter_input(INPUT_POST, "title", FILTER_SANITIZE_SPECIAL_CHARS);
     }
 
     // Reads the file informations if the file exists
@@ -97,10 +100,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         move_uploaded_file($_FILES["image"]["tmp_name"], "$path/$name.$extension");
 
         // Deletes the old disc picture from the server
-        unlink(realpath("../../assets/img/{$disc->disc_picture}"));
+        unlink(realpath("../../assets/img/{$discDetails->disc_picture}"));
 
         // Updates the disc with the form data given by the user
-        updateDisc($db, [
+        $disc->updateDisc([
             ":year" => $year,
             ":picture" => "$name.$extension",
             ":label" => $label,
@@ -126,9 +129,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // If the user don't give an image we keep the old one
         if ($_FILES["image"]["error"] === UPLOAD_ERR_NO_FILE) {
             // Updates the disc with the form data given by the user
-            updateDisc($db, [
+            $disc->updateDisc([
                 ":year" => $year,
-                ":picture" => $disc->disc_picture,
+                ":picture" => $discDetails->disc_picture,
                 ":label" => $label,
                 ":title" => $title,
                 ":genre" => $genre,

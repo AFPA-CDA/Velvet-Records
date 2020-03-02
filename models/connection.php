@@ -5,10 +5,6 @@ class Database
 {
     protected static $PDOInstance;
 
-    protected function __construct()
-    {
-    }
-
     /**
      * @return PDO The database instance
      */

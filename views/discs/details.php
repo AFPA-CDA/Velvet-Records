@@ -15,13 +15,13 @@
                 <div class="col s12 m6">
                     <div class="input-field">
                         <label for="title">Titre</label>
-                        <input disabled name="title" id="title" type="text" value="<?= $disc->disc_title ?>">
+                        <input disabled name="title" id="title" type="text" value="<?= $discDetails->disc_title ?>">
                     </div>
                 </div>
                 <div class="col s12 m6">
                     <div class="input-field">
                         <label for="artist">Artiste</label>
-                        <input disabled name="artist" id="artist" type="text" value="<?= $disc->artist_name ?>">
+                        <input disabled name="artist" id="artist" type="text" value="<?= $discDetails->artist_name ?>">
                     </div>
                 </div>
             </div>
@@ -30,13 +30,13 @@
                 <div class="col s12 m6">
                     <div class="input-field">
                         <label for="year">Année</label>
-                        <input disabled name="year" id="year" type="text" value="<?= $disc->disc_year ?>">
+                        <input disabled name="year" id="year" type="text" value="<?= $discDetails->disc_year ?>">
                     </div>
                 </div>
                 <div class="col s12 m6">
                     <div class="input-field">
                         <label for="genre">Genre</label>
-                        <input disabled name="genre" id="genre" type="text" value="<?= $disc->disc_genre ?>">
+                        <input disabled name="genre" id="genre" type="text" value="<?= $discDetails->disc_genre ?>">
                     </div>
                 </div>
             </div>
@@ -45,13 +45,13 @@
                 <div class="col s12 m6">
                     <div class="input-field">
                         <label for="label">Label</label>
-                        <input disabled name="label" id="label" type="text" value="<?= $disc->disc_label ?>">
+                        <input disabled name="label" id="label" type="text" value="<?= $discDetails->disc_label ?>">
                     </div>
                 </div>
                 <div class="col s12 m6">
                     <div class="input-field">
                         <label for="price">Prix</label>
-                        <input disabled name="price" id="price" type="text" value="<?= $disc->disc_price ?>€">
+                        <input disabled name="price" id="price" type="text" value="<?= $discDetails->disc_price ?>€">
                     </div>
                 </div>
             </div>
@@ -61,7 +61,7 @@
                     <img
                         alt="Image du disque"
                         class="responsive-img"
-                        src="../../assets/img/<?= $disc->disc_picture ?>"
+                        src="../../assets/img/<?= $discDetails->disc_picture ?>"
                     >
                 </div>
             </div>
@@ -75,14 +75,14 @@
             <ul>
                 <li><a class="waves-effect waves-light" href="list.php"><i class="material-icons">undo</i></a></li>
                 <li>
-                    <a class="waves-effect waves-light" href="update.php?disc_id=<?= $disc->disc_id ?>">
+                    <a class="waves-effect waves-light" href="update.php?disc_id=<?= $discDetails->disc_id ?>">
                         <i class="material-icons">edit</i>
                     </a>
                 </li>
                 <li>
                     <a
                         class="waves-effect waves-light"
-                        data-id="<?= $disc->disc_id ?>"
+                        data-id="<?= $discDetails->disc_id ?>"
                         href="#"
                         id="deleteButton"
                     >

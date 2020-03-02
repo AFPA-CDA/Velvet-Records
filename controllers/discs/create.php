@@ -1,6 +1,6 @@
 <?php
-require_once "../../models/connection.php";
 require_once "../../models/disc.php";
+require_once "../../models/artist.php";
 
 /* Page Variables Section */
 
@@ -12,11 +12,14 @@ $title = "Velvet Records - Ajout d'un disque";
 
 /* Database Section */
 
-// Gets the database instance
-$db = Database::getInstance();
+// Creates a new Artist model instance
+$artist = new Artist();
+
+// Creates a new Disc model instance
+$disc = new Disc();
 
 // Get all artists ordered by their name
-$artists = getArtistsOrderByName($db);
+$artists = $artist->getArtistsOrderByName();
 
 /* -------------------------------------------------------------------------------- */
 
@@ -53,11 +56,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (isset($_POST["genre"])) {
-        $genre = filter_input(INPUT_POST, "genre", FILTER_SANITIZE_STRING);
+        $genre = filter_input(INPUT_POST, "genre", FILTER_SANITIZE_SPECIAL_CHARS);
     }
 
     if (isset($_POST["label"])) {
-        $label = filter_input(INPUT_POST, "label", FILTER_SANITIZE_STRING);
+        $label = filter_input(INPUT_POST, "label", FILTER_SANITIZE_SPECIAL_CHARS);
     }
 
     if (isset($_POST["price"])) {
@@ -69,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (isset($_POST["title"])) {
-        $title = filter_input(INPUT_POST, "title", FILTER_SANITIZE_STRING);
+        $title = filter_input(INPUT_POST, "title", FILTER_SANITIZE_SPECIAL_CHARS);
     }
 
     // Reads the file informations if the file exists
@@ -90,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         move_uploaded_file($_FILES["image"]["tmp_name"], "$path/$name.$extension");
 
         // Creates and inserts a disc in the database with the form inputs
-        createDisc($db, [
+        $disc->createDisc([
             ":name" => $name,
             ":year" => $year,
             ":picture" => "$name.$extension",
