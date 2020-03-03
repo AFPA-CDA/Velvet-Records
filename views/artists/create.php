@@ -14,7 +14,7 @@
             <div class="row">
                 <div class="col s12 input-field">
                     <label for="name">Titre</label>
-                    <input name="name" id="name" type="text">
+                    <input name="name" id="name" type="text" value="<?= $_POST['name'] ?? '' ?>">
                     <span class="helper-text red-text">
                         <?= isset($formErrors["name"]) ? $formErrors["name"] : "" ?>
                     </span>

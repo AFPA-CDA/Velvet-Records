@@ -3,7 +3,7 @@ require_once "connection.php";
 
 class Disc
 {
-    public $pdo = null;
+    private $pdo = null;
 
     public function __construct()
     {
@@ -29,7 +29,6 @@ class Disc
 
             // Closes the cursor
             $insert->closeCursor();
-
         } catch (Exception $e) {
             // Stops the script after giving the error message
             die($e->getMessage());
@@ -56,7 +55,6 @@ class Disc
 
             // Closes the cursor
             $delete->closeCursor();
-
         } catch (Exception $e) {
             // Stops the script after giving the error message
             die($e->getMessage());
@@ -144,11 +142,14 @@ class Disc
             // Executes the query
             $query = $this->pdo->query($request);
 
+            // Fetches all the newest discs
+            $newestDiscs = $query->fetchAll();
+
             // Closes the cursor
             $query->closeCursor();
 
             // Returns the 3 newest discs
-            return $query->fetchAll();
+            return $newestDiscs;
         } catch (Exception $e) {
             die($e->getMessage());
         }

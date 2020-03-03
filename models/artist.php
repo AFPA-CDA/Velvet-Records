@@ -3,7 +3,7 @@ require_once "connection.php";
 
 class Artist
 {
-    public $pdo = null;
+    private $pdo = null;
 
     public function __construct()
     {
@@ -131,6 +131,7 @@ class Artist
             // Executes the query
             $query = $this->pdo->query($request);
 
+            // Fetches all the artists ordered by their names
             $artistsOrderedByName = $query->fetchAll();
 
             // Closes the cursor
@@ -155,6 +156,7 @@ class Artist
             // Executes the query
             $query = $this->pdo->query($request);
 
+            // Fetches all the 3 newest artists
             $newestArtists = $query->fetchAll();
 
             // Closes the cursor
