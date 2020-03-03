@@ -5,11 +5,10 @@ require_once "../../models/disc.php";
 /* Page Variables Section */
 
 // Here lies the regexes used for this form
-const IS_ALPHA_NUMERIC = "/^[\w\W\s\dÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]+$/i";
 const IS_ALLOWED_EXTENSION = "/(\.jpg|\.jpeg|\.png)$/i";
 const IS_CORRECT_PRICE = "/^(\d{0,4}[.]?)\d{0,2}$/";
+const IS_NOT_DANGEROUS = "/^[^<>&]+$/i";
 const IS_YEAR = "/^(19|20)\d{2}$/";
-
 
 // Sets the page's title
 $title = "Velvet Records - Modification du disque";
@@ -66,70 +65,68 @@ $formErrors = [];
 // If the request method used is POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // If the value is set
-    if (isset($_POST["artists"])) {
+    if (!empty($_POST["artists"])) {
         // It filters the input in order to prevent XSS Attacks
         $artistId = filter_input(INPUT_POST, "artists", FILTER_SANITIZE_NUMBER_INT);
     }
 
-    if (isset($_POST["genre"])) {
-        if (preg_match(IS_ALPHA_NUMERIC, $_POST["genre"])) {
+    if (!empty($_POST["genre"])) {
+        if (preg_match(IS_NOT_DANGEROUS, $_POST["genre"])) {
             $genre = filter_input(INPUT_POST, "genre", FILTER_SANITIZE_SPECIAL_CHARS);
-        } else if (empty($_POST["genre"])) {
-            $formErrors["genre"] = "Le genre est requis.";
         } else {
             $formErrors["genre"] = "Le genre n'est pas valide.";
         }
-
+    } else {
+        $formErrors["genre"] = "Le genre est requis.";
     }
 
-    if (isset($_POST["filePath"])) {
+    if (!empty($_POST["filePath"])) {
         if (!preg_match(IS_ALLOWED_EXTENSION, $_POST["filePath"])) {
             $formErrors["filePath"] = "Seuls les extensions [jpg|jpeg|png] sont autorisées.";
         }
     }
 
-    if (isset($_POST["label"])) {
-        if (preg_match(IS_ALPHA_NUMERIC, $_POST["label"])) {
+    if (!empty($_POST["label"])) {
+        if (preg_match(IS_NOT_DANGEROUS, $_POST["label"])) {
             $label = filter_input(INPUT_POST, "label", FILTER_SANITIZE_SPECIAL_CHARS);
-        } else if (empty($_POST["label"])) {
-            $formErrors["label"] = "Le label est requis.";
         } else {
             $formErrors["label"] = "Le label n'est pas valide.";
         }
+    } else {
+        $formErrors["label"] = "Le label est requis.";
     }
 
-    if (isset($_POST["price"])) {
+    if (!empty($_POST["price"])) {
         if (preg_match(IS_CORRECT_PRICE, $_POST["price"])) {
-            // Remettre flaf TODO:
             $price = filter_input(INPUT_POST, "price", FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-        } else if (empty($_POST["price"])) {
-            $formErrors["price"] = "Le prix est requis.";
         } else {
             $formErrors["price"] = "Le prix n'est pas valide.";
         }
+    } else {
+        $formErrors["price"] = "Le prix est requis.";
     }
 
-    if (isset($_POST["year"])) {
+    if (!empty($_POST["year"])) {
         if (preg_match(IS_YEAR, $_POST["year"])) {
             $year = filter_input(INPUT_POST, "year", FILTER_SANITIZE_NUMBER_INT);
-        } else if (empty($_POST["year"])) {
-            $formErrors["year"] = "L'année est requise.";
         } else {
             $formErrors["year"] = "L'année n'est pas valide.";
         }
+    } else {
+        $formErrors["year"] = "L'année est requise.";
     }
 
-    if (isset($_POST["title"])) {
-        if (preg_match(IS_ALPHA_NUMERIC, $_POST["title"])) {
+    if (!empty($_POST["title"])) {
+        if (preg_match(IS_NOT_DANGEROUS, $_POST["title"])) {
             $title = filter_input(INPUT_POST, "title", FILTER_SANITIZE_SPECIAL_CHARS);
-        } else if (empty($_POST["title"])) {
-            $formErrors["title"] = "Le titre est requis.";
         } else {
             $formErrors["title"] = "Le titre n'est pas valide.";
         }
+    } else {
+        $formErrors["title"] = "Le titre est requis.";
     }
 
-    // Reads the file informations if the file exists
+// Reads the file informations if the file exists
     if ($fileExists && $_FILES["image"]["size"] > 0) {
         $finfo = new finfo(FILEINFO_MIME_TYPE);
         $mimeType = $finfo->file($_FILES["image"]["tmp_name"]);
@@ -137,14 +134,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mimeType = null;
     }
 
-    // If the file don't have an allowed mime type and there's no error
+// If the file don't have an allowed mime type and there's no error
     if (!in_array($mimeType, $allowedMimeTypes) && empty($_FILES["image"]["error"])) {
         // Stores the error message in the formErrors array
         $formErrors["image"] = "Le format ." . pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION) . " n'est pas supporté.";
     }
 
-
-    // Checks that there is no error in the form and image and that the mime type is allowed
+// Checks that there is no error in the form and image and that the mime type is allowed
     if ($_FILES["image"]["error"] == UPLOAD_ERR_OK && in_array($mimeType, $allowedMimeTypes) && empty($formErrors)) {
         $extension = pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION);
         $path = realpath("../../assets/img/");
@@ -172,7 +168,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: ../../views/discs/list.php");
     }
 
-    // If there is any errors
+
+// If there is any errors
     if (!empty($_FILES["image"]["error"])) {
         // If the user don't give an image we keep the old one
         if ($_FILES["image"]["error"] === UPLOAD_ERR_NO_FILE && empty($formErrors)) {
@@ -191,8 +188,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Redirects the user to the discs list view
             header("Location: ../../views/discs/list.php");
         }
-        // Stores the error message in the formErrors array
-        $formErrors["image"] = $fileMessages[$_FILES["image"]["error"]];
+
+        // If the error is not a UPLOAD_ERR_NO_FILE error
+        if ($_FILES["image"]["error"] !== UPLOAD_ERR_NO_FILE) {
+            // Stores the error message in the formErrors array
+            $formErrors["image"] = $fileMessages[$_FILES["image"]["error"]];
+        }
     }
 }
 

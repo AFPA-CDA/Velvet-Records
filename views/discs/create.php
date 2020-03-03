@@ -9,7 +9,7 @@
 <main role="main">
     <div class="container">
         <h1 class="center-align">Ajouter un Disque</h1>
-        <form action="../../controllers/discs/create.php" enctype="multipart/form-data" method="post" id="createDisc">
+        <form action="../../controllers/discs/create.php" enctype="multipart/form-data" method="POST">
             <!-- First Row -->
             <div class="row">
                 <div class="col s12 input-field">
@@ -106,7 +106,6 @@
 </main>
 
 <?php include_once "../templates/footer.php" ?>
-<script src="../../assets/js/vendors/sweetalert2.min.js"></script>
 <script src="../../assets/js/discs/form.js"></script>
 </body>
 </html>

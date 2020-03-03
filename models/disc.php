@@ -139,15 +139,13 @@ class Disc
         try {
             // The UPDATE query
             $request = "UPDATE disc
-                    INNER JOIN artist a 
-                    ON disc.artist_id = a.artist_id
-                    SET disc_genre = :genre,
+                    SET artist_id = :artist_id,
+                        disc_genre = :genre,
                         disc_label = :label, 
                         disc_picture = :picture,
                         disc_price = :price, 
                         disc_title = :title, 
-                        disc_year = :year,
-                        a.artist_id = :artist_id
+                        disc_year = :year
                     WHERE disc_id = :disc_id";
 
             // Prepares the statement for execution and returns the statement object

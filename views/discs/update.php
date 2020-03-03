@@ -24,9 +24,12 @@
             <div class="row">
                 <div class="col s12 input-field">
                     <select name="artists" id="artists">
-                        <option disabled value="0" selected>Veuillez choisir un artiste</option>
                         <?php foreach ($artists as $artist): ?>
-                            <option value="<?= $artist->artist_id ?>"><?= $artist->artist_name ?></option>
+                            <?php if ($artist->artist_id === $discDetails->artist_id): ?>
+                                <option value="<?= $artist->artist_id ?>" selected><?= $artist->artist_name ?></option>
+                            <?php else: ?>
+                                <option value="<?= $artist->artist_id ?>"><?= $artist->artist_name ?></option>
+                            <?php endif; ?>
                         <?php endforeach; ?>
                     </select>
                     <label for="artists">Artiste</label>
@@ -124,7 +127,5 @@
 </main>
 
 <?php include_once "../templates/footer.php" ?>
-<script src="../../assets/js/discs/form.js"></script>
-<script src="../../assets/js/vendors/sweetalert2.min.js"></script>
 </body>
 </html>
