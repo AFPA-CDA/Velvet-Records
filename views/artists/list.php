@@ -7,11 +7,36 @@
 <?php include_once "../templates/navbar.php" ?>
 
 <main role="main">
-    <h1 class="center-align">Liste des disques (<?= count($discs) ?>)</h1>
+    <h1 class="center-align">Liste des artistes (<?= count($artists) ?>)</h1>
     <div class="row section">
         <!-- For each discs it creates a card with all the informations about the disc -->
-        <?php foreach ($discs as $disc): ?>
-
+        <?php foreach ($artists as $artist): ?>
+            <div class="col s12 m4">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="center-align row">
+                            <span class="card-title">
+                                <b><?= $artist->artist_name ?></b>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="card-action" id="artistButtons">
+                        <!-- TODO: Ajouter modal -->
+                        <a
+                            class="btn deep-orange lighten-1 waves-effect waves-light"
+                            href="../../views/artists/details.php?artist_id=<?= $artist->artist_id ?>"
+                        >
+                            Détails
+                        </a>
+                        <a
+                            class="btn red waves-effect waves-light"
+                            href="../../controllers/artists/delete.php?artist_id=<?= $artist->artist_id ?>"
+                        >
+                            Supprimer
+                        </a>
+                    </div>
+                </div>
+            </div>
         <?php endforeach; ?>
     </div>
 

@@ -36,6 +36,15 @@ ul.dropdown-content.select-dropdown li span:hover {
 }
 
 /* ID's */
+#artistButtons {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#artistButtons > a {
+    width: 45%;
+}
+
 #artistName {
     margin-bottom: 5%;
 }
