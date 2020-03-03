@@ -64,19 +64,26 @@ $formErrors = [];
 
 // If the request method used is POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // If the value is set
+    // If the is not empty
     if (!empty($_POST["artists"])) {
-        // It filters the input in order to prevent XSS Attacks
+        // It filters the input and makes it safe to insert into the database
         $artistId = filter_input(INPUT_POST, "artists", FILTER_SANITIZE_NUMBER_INT);
+    } else {
+        $formErrors["artists"] = "Vous devez choisir un artiste.";
     }
 
+    // If the value is not empty
     if (!empty($_POST["genre"])) {
+        // If the value is valid
         if (preg_match(IS_NOT_DANGEROUS, $_POST["genre"])) {
+            // It filters the input and makes it safe to insert into the database
             $genre = filter_input(INPUT_POST, "genre", FILTER_SANITIZE_SPECIAL_CHARS);
         } else {
+            // If it's not valid it asks the user to give a valid genre
             $formErrors["genre"] = "Le genre n'est pas valide.";
         }
     } else {
+        // If it's empty it asks the user to give a genre
         $formErrors["genre"] = "Le genre est requis.";
     }
 
@@ -126,7 +133,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $formErrors["title"] = "Le titre est requis.";
     }
 
-// Reads the file informations if the file exists
+    // Reads the file informations if the file exists
     if ($fileExists && $_FILES["image"]["size"] > 0) {
         $finfo = new finfo(FILEINFO_MIME_TYPE);
         $mimeType = $finfo->file($_FILES["image"]["tmp_name"]);
@@ -134,7 +141,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mimeType = null;
     }
 
-// If the file don't have an allowed mime type and there's no error
+    // If the file don't have an allowed mime type and there's no error
     if (!in_array($mimeType, $allowedMimeTypes) && empty($_FILES["image"]["error"])) {
         // Stores the error message in the formErrors array
         $formErrors["image"] = "Le format ." . pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION) . " n'est pas supporté.";

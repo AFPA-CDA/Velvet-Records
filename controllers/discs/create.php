@@ -4,6 +4,12 @@ require_once "../../models/artist.php";
 
 /* Page Variables Section */
 
+// Here lies the regexes used for this form
+const IS_ALLOWED_EXTENSION = "/(\.jpg|\.jpeg|\.png)$/i";
+const IS_CORRECT_PRICE = "/^(\d{0,4}[.]?)\d{0,2}$/";
+const IS_NOT_DANGEROUS = "/^[^<>&]+$/i";
+const IS_YEAR = "/^(19|20)\d{2}$/";
+
 // Sets the page's title
 $title = "Velvet Records - Ajout d'un disque";
 
@@ -38,8 +44,8 @@ $fileExists = isset($_FILES) ? count($_FILES) : 0;
 // List of error messages
 $fileMessages = array(
     UPLOAD_ERR_OK => "Il n'y a pas d'erreur, le fichier a été téléchargé avec succès",
-    UPLOAD_ERR_INI_SIZE => 'Le fichier téléchargé dépasse la directive upload_max_filesize de php.ini',
-    UPLOAD_ERR_FORM_SIZE => 'Le fichier téléchargé dépasse la directive MAX_FILE_SIZE qui a été spécifiée dans le formulaire HTML',
+    UPLOAD_ERR_INI_SIZE => 'Le fichier téléchargé dépasse 2MB',
+    UPLOAD_ERR_FORM_SIZE => 'Le fichier téléchargé dépasse 2MB',
     UPLOAD_ERR_PARTIAL => 'Le fichier choisi n\'a été que partiellement téléchargé',
     UPLOAD_ERR_NO_FILE => 'Aucun fichier n\'a été choisi',
     UPLOAD_ERR_NO_TMP_DIR => 'Il manque un dossier temporaire',
@@ -47,32 +53,78 @@ $fileMessages = array(
     UPLOAD_ERR_EXTENSION => 'Une extension PHP a arrêté le téléchargement du fichier'
 );
 
+// An array filled the with the form input errors
+$formErrors = [];
+
 // If the request method used is POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // If the value is set
-    if (isset($_POST["artists"])) {
+    if (!empty($_POST["artists"])) {
         // It filters the input in order to prevent XSS Attacks
         $artistId = filter_input(INPUT_POST, "artists", FILTER_SANITIZE_NUMBER_INT);
+    } else {
+        $formErrors["artists"] = "Vous devez choisir un artiste.";
     }
 
-    if (isset($_POST["genre"])) {
-        $genre = filter_input(INPUT_POST, "genre", FILTER_SANITIZE_SPECIAL_CHARS);
+    // If the value is not empty
+    if (!empty($_POST["genre"])) {
+        // If the value is valid
+        if (preg_match(IS_NOT_DANGEROUS, $_POST["genre"])) {
+            // It filters the input and makes it safe to insert into the database
+            $genre = filter_input(INPUT_POST, "genre", FILTER_SANITIZE_SPECIAL_CHARS);
+        } else {
+            // If it's not valid it asks the user to give a valid genre
+            $formErrors["genre"] = "Le genre n'est pas valide.";
+        }
+    } else {
+        // If it's empty it asks the user to give a genre
+        $formErrors["genre"] = "Le genre est requis.";
     }
 
-    if (isset($_POST["label"])) {
-        $label = filter_input(INPUT_POST, "label", FILTER_SANITIZE_SPECIAL_CHARS);
+    if (!empty($_POST["filePath"])) {
+        if (!preg_match(IS_ALLOWED_EXTENSION, $_POST["filePath"])) {
+            $formErrors["filePath"] = "Seuls les extensions [jpg|jpeg|png] sont autorisées.";
+        }
     }
 
-    if (isset($_POST["price"])) {
-        $price = filter_input(INPUT_POST, "price", FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+    if (!empty($_POST["label"])) {
+        if (preg_match(IS_NOT_DANGEROUS, $_POST["label"])) {
+            $label = filter_input(INPUT_POST, "label", FILTER_SANITIZE_SPECIAL_CHARS);
+        } else {
+            $formErrors["label"] = "Le label n'est pas valide.";
+        }
+    } else {
+        $formErrors["label"] = "Le label est requis.";
     }
 
-    if (isset($_POST["year"])) {
-        $year = filter_input(INPUT_POST, "year", FILTER_SANITIZE_NUMBER_INT);
+    if (!empty($_POST["price"])) {
+        if (preg_match(IS_CORRECT_PRICE, $_POST["price"])) {
+            $price = filter_input(INPUT_POST, "price", FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+        } else {
+            $formErrors["price"] = "Le prix n'est pas valide.";
+        }
+    } else {
+        $formErrors["price"] = "Le prix est requis.";
     }
 
-    if (isset($_POST["title"])) {
-        $title = filter_input(INPUT_POST, "title", FILTER_SANITIZE_SPECIAL_CHARS);
+    if (!empty($_POST["year"])) {
+        if (preg_match(IS_YEAR, $_POST["year"])) {
+            $year = filter_input(INPUT_POST, "year", FILTER_SANITIZE_NUMBER_INT);
+        } else {
+            $formErrors["year"] = "L'année n'est pas valide.";
+        }
+    } else {
+        $formErrors["year"] = "L'année est requise.";
+    }
+
+    if (!empty($_POST["title"])) {
+        if (preg_match(IS_NOT_DANGEROUS, $_POST["title"])) {
+            $title = filter_input(INPUT_POST, "title", FILTER_SANITIZE_SPECIAL_CHARS);
+        } else {
+            $formErrors["title"] = "Le titre n'est pas valide.";
+        }
+    } else {
+        $formErrors["title"] = "Le titre est requis.";
     }
 
     // Reads the file informations if the file exists
@@ -83,8 +135,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mimeType = null;
     }
 
+    // If the file don't have an allowed mime type and there's no error
+    if (!in_array($mimeType, $allowedMimeTypes) && empty($_FILES["image"]["error"])) {
+        // Stores the error message in the formErrors array
+        $formErrors["image"] = "Le format ." . pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION) . " n'est pas supporté.";
+    }
+
     // Checks that there is no error and that the mime type is allowed
-    if ($_FILES["image"]["error"] == UPLOAD_ERR_OK && in_array($mimeType, $allowedMimeTypes)) {
+    if ($_FILES["image"]["error"] == UPLOAD_ERR_OK && in_array($mimeType, $allowedMimeTypes) && empty($formErrors)) {
         $extension = pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION);
         $path = realpath("../../assets/img/");
         $name = basename($title);
@@ -107,21 +165,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: ../../views/discs/list.php");
     }
 
-    // If the file don't have an allowed mime type and there's no error
-    if (!in_array($mimeType, $allowedMimeTypes) && empty($_FILES["image"]["error"])) {
-        // Prints an error message to the user
-        echo "Le format " . basename($mimeType) . "est pas supporté.";
-    }
-
     // If there is any errors
     if (!empty($_FILES["image"]["error"])) {
-        // Prints the error message to the user
-        echo $fileMessages[$_FILES["image"]["error"]];
-    }
-
-    // If the file has an allowed mime type and the file size exceeds 2MB
-    if (in_array($mimeType, $allowedMimeTypes) && ($_FILES["image"]["size"] / 1024 / 1024) > 2) {
-        // Prints the error message to the user
-        echo "Le fichier ne peut pas dépasser 2MB !";
+        // Stores the error message in the formErrors array
+        $formErrors["image"] = $fileMessages[$_FILES["image"]["error"]];
     }
 }

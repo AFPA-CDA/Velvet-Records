@@ -9,13 +9,15 @@
 <main role="main">
     <div class="container">
         <h1 class="center-align">Ajouter un Disque</h1>
-        <form action="../../controllers/discs/create.php" enctype="multipart/form-data" method="POST">
+        <form enctype="multipart/form-data" method="POST">
             <!-- First Row -->
             <div class="row">
                 <div class="col s12 input-field">
                     <label for="title">Titre</label>
                     <input name="title" id="title" type="text">
-                    <span class="helper-text red-text"></span>
+                    <span class="helper-text red-text">
+                        <?= isset($formErrors["title"]) ? $formErrors["title"] : "" ?>
+                    </span>
                 </div>
             </div>
             <!-- Second Row -->
@@ -28,7 +30,9 @@
                         <?php endforeach; ?>
                     </select>
                     <label for="artists">Artiste</label>
-                    <span class="helper-text red-text" id="artistsError"></span>
+                    <span class="helper-text red-text">
+                        <?= isset($formErrors["artists"]) ? $formErrors["artists"] : "" ?>
+                    </span>
                 </div>
             </div>
             <!-- Third Row -->
@@ -36,7 +40,9 @@
                 <div class="col s12 input-field">
                     <label for="year">Année</label>
                     <input name="year" id="year" type="text">
-                    <span class="helper-text red-text"></span>
+                    <span class="helper-text red-text">
+                        <?= isset($formErrors["year"]) ? $formErrors["year"] : "" ?>
+                    </span>
                 </div>
             </div>
             <!-- Fourth Row -->
@@ -44,7 +50,9 @@
                 <div class="col s12 input-field">
                     <label for="genre">Genre</label>
                     <input name="genre" id="genre" type="text">
-                    <span class="helper-text red-text"></span>
+                    <span class="helper-text red-text">
+                        <?= isset($formErrors["genre"]) ? $formErrors["genre"] : "" ?>
+                    </span>
                 </div>
             </div>
             <!-- Fifth Row -->
@@ -52,7 +60,9 @@
                 <div class="col s12 input-field">
                     <label for="label">Label</label>
                     <input name="label" id="label" type="text">
-                    <span class="helper-text red-text"></span>
+                    <span class="helper-text red-text">
+                        <?= isset($formErrors["label"]) ? $formErrors["label"] : "" ?>
+                    </span>
                 </div>
             </div>
             <!-- Sixth Row -->
@@ -60,7 +70,9 @@
                 <div class="col s12 input-field">
                     <label for="price">Prix</label>
                     <input name="price" id="price" type="text">
-                    <span class="helper-text red-text"></span>
+                    <span class="helper-text red-text">
+                        <?= isset($formErrors["price"]) ? $formErrors["price"] : "" ?>
+                    </span>
                 </div>
             </div>
             <!-- Seventh Row -->
@@ -73,7 +85,12 @@
                     <div class="file-path-wrapper">
                         <label for="filePath"></label>
                         <input class="file-path" name="filePath" id="filePath" type="text">
-                        <span class="helper-text red-text"></span>
+                        <span class="helper-text red-text">
+                            <?= isset($formErrors["filePath"]) ? $formErrors["filePath"] : "" ?>
+                        </span>
+                        <span class="helper-text red-text">
+                             <?= isset($formErrors["image"]) ? $formErrors["image"] : "" ?>
+                        </span>
                     </div>
                 </div>
             </div>

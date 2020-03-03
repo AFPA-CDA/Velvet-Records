@@ -9,7 +9,7 @@
 <main role="main">
     <div class="container">
         <h1 class="center-align">Modification</h1>
-        <form enctype="multipart/form-data" method="post" id="updateDisc">
+        <form enctype="multipart/form-data" method="POST">
             <!-- First Row -->
             <div class="row">
                 <div class="col s12 input-field">

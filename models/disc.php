@@ -113,16 +113,13 @@ class Disc
                     ORDER BY disc_id DESC";
 
             // Prepares the statement for execution and returns the statement object
-            $stmt = $this->pdo->prepare($request);
+            $query = $this->pdo->query($request);
 
-            // Executes the prepared statement
-            $stmt->execute();
-
-            // Fetches all the discs from the prepared statement as an Object
-            $discs = $stmt->fetchAll();
+            // Fetches all the discs from the query as an Object
+            $discs = $query->fetchAll();
 
             // Closes the cursor
-            $stmt->closeCursor();
+            $query->closeCursor();
 
             // Returns discs list
             return $discs;
