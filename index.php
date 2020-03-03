@@ -1,3 +1,5 @@
+<?php require_once "controllers/index.php" ?>
+
 <!doctype html>
 <html lang="fr">
 <head>
@@ -37,8 +39,74 @@
     </nav>
 </header>
 
-<!-- TODO: Créer la page d'accueil avec top 3 -->
-<h1 class="center-align">Accueil WIP</h1>
+<main role="main">
+    <section class="section" role="region">
+        <h1 class="center-align">Nouveaux Artistes</h1>
+        <div class="row">
+            <?php foreach ($artists as $artist): ?>
+                <div class="col s12 m4">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="center-align row">
+                                <span class="card-title">
+                                    <b><?= $artist->artist_name ?></b>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="card-action" id="artistButtons">
+                            <a
+                                class="btn deep-orange lighten-1 waves-effect waves-light"
+                                href="views/artists/details.php?artist_id=<?= $artist->artist_id ?>"
+                            >
+                                Détails
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </section>
+    <section class="section" role="region">
+        <h1 class="center-align">Nouveaux Disques</h1>
+        <div class="row">
+            <?php foreach ($discs as $disc): ?>
+                <div class="col s12 m4">
+                    <div class="card">
+                        <div class="card-image">
+                            <img
+                                alt="Image du disque"
+                                class="responsive-img"
+                                src="assets/img/<?= $disc->disc_picture ?>"
+                            >
+                        </div>
+                        <div class="card-content">
+                            <div class="center-align row">
+                                <p class="flow-text" id="artistName">
+                                    <?= $disc->artist_name ?> (<?= $disc->disc_title ?>)
+                                </p>
+                                <div class="col s12">
+                                    <p><b>Année</b>: <?= $disc->disc_year ?></p>
+                                    <p><b>Label</b>: <?= $disc->disc_label ?></p>
+                                    <p><b>Genre</b>: <?= $disc->disc_genre ?></p>
+                                    <p><b>Prix</b>: <?= $disc->disc_price ?>€</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-action">
+                            <a
+                                class="btn deep-orange lighten-1"
+                                id="detailsButton"
+                                href="views/discs/details.php?disc_id=<?= $disc->disc_id ?>"
+                            >
+                                Détails
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </section>
+</main>
 
 <script src="assets/js/vendors/materialize.min.js"></script>
 <script src="assets/js/index.js"></script>

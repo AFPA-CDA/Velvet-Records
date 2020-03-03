@@ -129,6 +129,32 @@ class Disc
     }
 
     /**
+     * @return array The 3 newest discs
+     */
+    public function getNewestDiscs(): array
+    {
+        try {
+            // The SELECT query
+            $request = "SELECT * 
+                        FROM disc 
+                        INNER JOIN artist a on disc.artist_id = a.artist_id
+                        ORDER BY disc_id DESC 
+                        LIMIT 3";
+
+            // Executes the query
+            $query = $this->pdo->query($request);
+
+            // Closes the cursor
+            $query->closeCursor();
+
+            // Returns the 3 newest discs
+            return $query->fetchAll();
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
+    /**
      * @param array $items The array with the SQL UPDATE items
      */
     function updateDisc(array $items): void

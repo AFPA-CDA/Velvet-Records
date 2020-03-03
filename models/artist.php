@@ -84,6 +84,10 @@ class Artist
         }
     }
 
+    /**
+     * @param int $artistId The artist id
+     * @return array The artist discs list
+     */
     public function getArtistDiscsList(int $artistId): array
     {
         try {
@@ -127,8 +131,37 @@ class Artist
             // Executes the query
             $query = $this->pdo->query($request);
 
+            $artistsOrderedByName = $query->fetchAll();
+
+            // Closes the cursor
+            $query->closeCursor();
+
             // Returns all the artist
-            return $query->fetchAll();
+            return $artistsOrderedByName;
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
+    /**
+     * @return array The 3 newest artists
+     */
+    public function getNewestArtists(): array
+    {
+        try {
+            // The SELECT query
+            $request = "SELECT * FROM artist ORDER BY artist_id DESC LIMIT 3";
+
+            // Executes the query
+            $query = $this->pdo->query($request);
+
+            $newestArtists = $query->fetchAll();
+
+            // Closes the cursor
+            $query->closeCursor();
+
+            // Returns the 3 newest artists
+            return $newestArtists;
         } catch (Exception $e) {
             die($e->getMessage());
         }
