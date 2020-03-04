@@ -1,4 +1,4 @@
-<?php require_once "../../controllers/artists/create.php"; ?>
+<?php require_once "../../controllers/artists/update.php"; ?>
 
 <!doctype html>
 <html lang="fr">
@@ -8,12 +8,12 @@
 
 <main role="main">
     <div class="container">
-        <h1 class="center-align">Ajouter un Disque</h1>
+        <h1 class="center-align">Mettre à jour un Artiste</h1>
         <form method="POST" id="createArtist">
             <!-- First Row -->
             <div class="row">
                 <div class="col s12 input-field">
-                    <label for="name">Nom de l'artiste</label>
+                    <label for="name">Titre</label>
                     <input name="name" id="name" type="text" value="<?= $_POST['name'] ?? '' ?>">
                     <span class="helper-text red-text">
                         <?= isset($formErrors["name"]) ? $formErrors["name"] : "" ?>

@@ -14,6 +14,9 @@
             <div class="col s12 m4">
                 <div class="card">
                     <div class="card-content">
+                        <a href="update.php?artist_id=<?= $artist->artist_id ?>">
+                            <span class="badge"><i class="material-icons">edit</i></span>
+                        </a>
                         <div class="center-align row">
                             <span class="card-title">
                                 <b><?= $artist->artist_name ?></b>
@@ -21,7 +24,6 @@
                         </div>
                     </div>
                     <div class="card-action" id="artistButtons">
-                        <!-- TODO: Ajouter modal -->
                         <a
                             class="btn deep-orange lighten-1 waves-effect waves-light"
                             href="../../views/artists/details.php?artist_id=<?= $artist->artist_id ?>"
@@ -30,7 +32,9 @@
                         </a>
                         <a
                             class="btn red waves-effect waves-light"
+                            data-id="<?= $artist->artist_id ?>"
                             href="../../controllers/artists/delete.php?artist_id=<?= $artist->artist_id ?>"
+                            id="deleteButton<?= $artist->artist_id ?>"
                         >
                             Supprimer
                         </a>
@@ -48,5 +52,7 @@
 </main>
 
 <?php include_once "../templates/footer.php" ?>
+<script src="../../assets/js/vendors/sweetalert2.min.js"></script>
+<script src="../../assets/js/artists/delete.js"></script>
 </body>
 </html>

@@ -9,7 +9,7 @@
 <main role="main">
     <div class="container">
         <h1 class="center-align">Ajouter un Disque</h1>
-        <form enctype="multipart/form-data" method="POST">
+        <form enctype="multipart/form-data" method="POST" id="createDisc">
             <!-- First Row -->
             <div class="row">
                 <div class="col s12 input-field">
@@ -28,7 +28,7 @@
                         <?php endforeach; ?>
                     </select>
                     <label for="artists">Artiste</label>
-                    <span class="helper-text red-text"><?= $formErrors["artists"] ?? "" ?></span>
+                    <span class="helper-text red-text" id="artistsError"><?= $formErrors["artists"] ?? "" ?></span>
                 </div>
             </div>
             <!-- Third Row -->
@@ -107,6 +107,7 @@
 </main>
 
 <?php include_once "../templates/footer.php" ?>
+<script src="../../assets/js/vendors/sweetalert2.min.js"></script>
 <script src="../../assets/js/discs/form.js"></script>
 </body>
 </html>

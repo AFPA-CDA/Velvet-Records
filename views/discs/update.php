@@ -9,7 +9,7 @@
 <main role="main">
     <div class="container">
         <h1 class="center-align">Modification</h1>
-        <form enctype="multipart/form-data" method="POST">
+        <form enctype="multipart/form-data" method="POST" id="updateDisc">
             <!-- First Row -->
             <div class="row">
                 <div class="col s12 input-field">
@@ -33,7 +33,7 @@
                         <?php endforeach; ?>
                     </select>
                     <label for="artists">Artiste</label>
-                    <span class="helper-text red-text">
+                    <span class="helper-text red-text" id="artistsError">
                         <?= isset($formErrors["artists"]) ? $formErrors["artists"] : "" ?>
                     </span>
                 </div>
@@ -127,5 +127,7 @@
 </main>
 
 <?php include_once "../templates/footer.php" ?>
+<script src="../../assets/js/vendors/sweetalert2.min.js"></script>
+<script src="../../assets/js/discs/form.js"></script>
 </body>
 </html>

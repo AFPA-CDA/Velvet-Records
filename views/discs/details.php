@@ -90,8 +90,12 @@
                     </a>
                 </li>
                 <li>
-                    <!-- Modal Trigger -->
-                    <a class="btn modal-trigger waves-effect waves-light" data-target="deleteModal">
+                    <a
+                        class="btn waves-effect waves-light"
+                        data-id="<?=$discDetails->disc_id ?>"
+                        href="../../controllers/discs/delete.php?disc_id=<?= $discDetails->disc_id ?>"
+                        id="deleteButton"
+                    >
                         <i class="material-icons">delete_forever</i>
                     </a>
                 </li>
@@ -100,23 +104,8 @@
     </div>
 </main>
 
-<!-- Modal Structure -->
-<div class="deep-orange lighten-1 modal white-text" id="deleteModal">
-    <div class="center-align modal-content">
-        <h4>Supprimer le disque (<?= $discDetails->disc_title ?>) ?</h4>
-        <h5>Cette action est irréversible !</h5>
-    </div>
-    <div class="deep-orange lighten-1 modal-footer">
-        <a class="btn-flat modal-close waves-effect waves-light white-text" href="list.php">Retour</a>
-        <a
-            class="btn-flat modal-close red waves-effect waves-light white-text"
-            href="../../controllers/discs/delete.php?disc_id=<?= $discDetails->disc_id ?>"
-        >
-            Supprimer
-        </a>
-    </div>
-</div>
-
 <?php include_once "../templates/footer.php" ?>
+<script src="../../assets/js/vendors/sweetalert2.min.js"></script>
+<script src="../../assets/js/discs/delete.js"></script>
 </body>
 </html>

@@ -33,6 +33,15 @@
                             </div>
                         </div>
                     </div>
+                    <div class="card-action">
+                        <a
+                            class="btn deep-orange lighten-1"
+                            id="detailsButton"
+                            href="../discs/details.php?disc_id=<?= $disc->disc_id ?>"
+                        >
+                            Détails
+                        </a>
+                    </div>
                 </div>
             </div>
         <?php endforeach; ?>

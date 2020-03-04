@@ -169,6 +169,28 @@ class Artist
         }
     }
 
+    /**
+     * @param array $items The array with the SQL UPDATE items
+     */
+    public function updateArtist(array $items): void
+    {
+        try {
+            // The UPDATE request
+            $request = "UPDATE artist SET artist_name = :artist_name WHERE artist_id = :artist_id";
+
+            // Prepares the statement for execution and returns the statement object
+            $stmt = $this->pdo->prepare($request);
+
+            // Executes the prepared statement
+            $stmt->execute($items);
+
+            // Closes the cursor
+            $stmt->closeCursor();
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
+
     public function __destruct()
     {
         $this->pdo = null;

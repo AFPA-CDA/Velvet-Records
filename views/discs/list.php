@@ -36,8 +36,8 @@
                     <div class="card-action">
                         <a
                             class="btn deep-orange lighten-1"
-                            id="detailsButton"
                             href="details.php?disc_id=<?= $disc->disc_id ?>"
+                            id="detailsButton"
                         >
                             Détails
                         </a>

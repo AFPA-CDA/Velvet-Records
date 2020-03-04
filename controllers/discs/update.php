@@ -50,8 +50,8 @@ $fileExists = isset($_FILES) ? count($_FILES) : 0;
 // List of error messages
 $fileMessages = array(
     UPLOAD_ERR_OK => "Il n'y a pas d'erreur, le fichier a été téléchargé avec succès",
-    UPLOAD_ERR_INI_SIZE => 'Le fichier téléchargé dépasse 2 MB',
-    UPLOAD_ERR_FORM_SIZE => 'Le fichier téléchargé dépasse 2 MB',
+    UPLOAD_ERR_INI_SIZE => 'Le fichier téléchargé dépasse 5MB',
+    UPLOAD_ERR_FORM_SIZE => 'Le fichier téléchargé dépasse 5MB',
     UPLOAD_ERR_PARTIAL => 'Le fichier choisi n\'a été que partiellement téléchargé',
     UPLOAD_ERR_NO_FILE => 'Aucun fichier n\'a été choisi',
     UPLOAD_ERR_NO_TMP_DIR => 'Il manque un dossier temporaire',
@@ -147,7 +147,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $formErrors["image"] = "Le format ." . pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION) . " n'est pas supporté.";
     }
 
-// Checks that there is no error in the form and image and that the mime type is allowed
+    // If there is any errors
+    if (!empty($_FILES["image"]["error"])) {
+        // If the user don't give an image we keep the old one
+        if ($_FILES["image"]["error"] === UPLOAD_ERR_NO_FILE && empty($formErrors)) {
+            // Updates the disc with the form data given by the user
+            $disc->updateDisc([
+                ":year" => $year,
+                ":picture" => $discDetails->disc_picture,
+                ":label" => $label,
+                ":title" => $title,
+                ":genre" => $genre,
+                ":price" => $price,
+                ":artist_id" => $artistId,
+                ":disc_id" => $discId
+            ]);
+
+            // Redirects the user to the discs list view
+            header("Location: ../../views/discs/list.php");
+        }
+
+        // If the error is not a UPLOAD_ERR_NO_FILE error or UPLOAD_ERR_OK
+        if ($_FILES["image"]["error"] !== UPLOAD_ERR_NO_FILE && $_FILES["image"]["error"] !== UPLOAD_ERR_OK) {
+            // Stores the error message in the formErrors array
+            $formErrors["image"] = $fileMessages[$_FILES["image"]["error"]];
+        }
+    }
+
+    // Checks that there is no error in the form and image and that the mime type is allowed
     if ($_FILES["image"]["error"] == UPLOAD_ERR_OK && in_array($mimeType, $allowedMimeTypes) && empty($formErrors)) {
         $extension = pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION);
         $path = realpath("../../assets/img/");
@@ -173,34 +200,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Redirects the user to the discs list view
         header("Location: ../../views/discs/list.php");
-    }
-
-
-// If there is any errors
-    if (!empty($_FILES["image"]["error"])) {
-        // If the user don't give an image we keep the old one
-        if ($_FILES["image"]["error"] === UPLOAD_ERR_NO_FILE && empty($formErrors)) {
-            // Updates the disc with the form data given by the user
-            $disc->updateDisc([
-                ":year" => $year,
-                ":picture" => $discDetails->disc_picture,
-                ":label" => $label,
-                ":title" => $title,
-                ":genre" => $genre,
-                ":price" => $price,
-                ":artist_id" => $artistId,
-                ":disc_id" => $discId
-            ]);
-
-            // Redirects the user to the discs list view
-            header("Location: ../../views/discs/list.php");
-        }
-
-        // If the error is not a UPLOAD_ERR_NO_FILE error
-        if ($_FILES["image"]["error"] !== UPLOAD_ERR_NO_FILE) {
-            // Stores the error message in the formErrors array
-            $formErrors["image"] = $fileMessages[$_FILES["image"]["error"]];
-        }
     }
 }
 

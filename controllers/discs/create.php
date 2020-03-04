@@ -44,8 +44,8 @@ $fileExists = isset($_FILES) ? count($_FILES) : 0;
 // List of error messages
 $fileMessages = array(
     UPLOAD_ERR_OK => "Il n'y a pas d'erreur, le fichier a été téléchargé avec succès",
-    UPLOAD_ERR_INI_SIZE => 'Le fichier téléchargé dépasse 2MB',
-    UPLOAD_ERR_FORM_SIZE => 'Le fichier téléchargé dépasse 2MB',
+    UPLOAD_ERR_INI_SIZE => 'Le fichier téléchargé dépasse 5MB',
+    UPLOAD_ERR_FORM_SIZE => 'Le fichier téléchargé dépasse 5MB',
     UPLOAD_ERR_PARTIAL => 'Le fichier choisi n\'a été que partiellement téléchargé',
     UPLOAD_ERR_NO_FILE => 'Aucun fichier n\'a été choisi',
     UPLOAD_ERR_NO_TMP_DIR => 'Il manque un dossier temporaire',
@@ -133,12 +133,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mimeType = $finfo->file($_FILES["image"]["tmp_name"]);
     } else {
         $mimeType = null;
+        $formErrors["image"] = "L'image est requise.";
+    }
+
+    // If there is any errors
+    if (!empty($_FILES["image"]["error"])) {
+        // Stores the error message in the formErrors array
+        $formErrors["image"] = $fileMessages[$_FILES["image"]["error"]];
     }
 
     // If the file don't have an allowed mime type and there's no error
     if (!in_array($mimeType, $allowedMimeTypes) && empty($_FILES["image"]["error"])) {
         // Stores the error message in the formErrors array
-        $formErrors["image"] = "Le format ." . pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION) . " n'est pas supporté.";
+        $formErrors["filePath"] = "Le format ." . pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION) . " n'est pas supporté.";
     }
 
     // Checks that there is no error and that the mime type is allowed
@@ -163,11 +170,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Redirects the user to the discs list view
         header("Location: ../../views/discs/list.php");
-    }
-
-    // If there is any errors
-    if (!empty($_FILES["image"]["error"])) {
-        // Stores the error message in the formErrors array
-        $formErrors["image"] = $fileMessages[$_FILES["image"]["error"]];
     }
 }

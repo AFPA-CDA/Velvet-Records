@@ -7,7 +7,7 @@ require_once "../../models/artist.php";
 const IS_NOT_DANGEROUS = "/^[^<>&]+$/i";
 
 // Sets the page's title
-$title = "Velvet Records - Ajout d'un artiste";
+$title = "Velvet Records - Mise à jour d'un artiste";
 
 /* -------------------------------------------------------------------------------- */
 
@@ -16,6 +16,9 @@ $title = "Velvet Records - Ajout d'un artiste";
 
 // Creates a new Artist model instance
 $artist = new Artist();
+
+// Gets and filters the artist ID
+$artistId = filter_input(INPUT_GET, "artist_id", FILTER_SANITIZE_NUMBER_INT);
 
 /* -------------------------------------------------------------------------------- */
 
@@ -41,11 +44,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $formErrors["name"] = "Vous devez choisir un artiste.";
     }
-
     // Checks that there is no error and that the mime type is allowed
     if (empty($formErrors)) {
-        // Creates and inserts a artist in the database with the form inputs
-        $artist->createArtist([":artist_name" => $artistName]);
+        // Updates the currenta artist in the database with the form inputs
+        $artist->updateArtist([":artist_name" => $artistName, ":artist_id" => $artistId]);
 
         // Redirects the user to the discs list view
         header("Location: ../../views/artists/list.php");
