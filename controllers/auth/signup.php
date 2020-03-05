@@ -93,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
        $formErrors["password"] = "Le mot de passe est requis.";
    }
 
-   if (!empty($_POST["confirmation"])) {
+   if (!empty($_POST["confirmation"]) && !empty($_POST["password"])) {
        if ($_POST["password"] !== $_POST["confirmation"])  {
            $formErrors["confirmation"] = "Les mots de passe ne sont pas identiques.";
        }
