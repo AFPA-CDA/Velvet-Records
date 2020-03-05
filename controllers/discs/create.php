@@ -155,10 +155,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $name = basename($title);
 
         // Moves the new uploaded file to the right img folder
-        move_uploaded_file($_FILES["image"]["tmp_name"], "$path/$name.$extension");
+        //move_uploaded_file($_FILES["image"]["tmp_name"], "$path/$name.$extension");
 
         // Creates and inserts a disc in the database with the form inputs
-        $disc->createDisc([
+        /*$disc->createDisc([
             ":name" => $name,
             ":year" => $year,
             ":picture" => "$name.$extension",
@@ -169,6 +169,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ]);
 
         // Redirects the user to the discs list view
-        header("Location: ../../views/discs/list.php");
+        header("Location: ../../views/discs/list.php");*/
+
+        print_r($_SESSION["upload_progress_image"]);
     }
 }

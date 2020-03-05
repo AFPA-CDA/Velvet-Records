@@ -44,6 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $formErrors["name"] = "Vous devez choisir un artiste.";
     }
+
     // Checks that there is no error and that the mime type is allowed
     if (empty($formErrors)) {
         // Updates the currenta artist in the database with the form inputs

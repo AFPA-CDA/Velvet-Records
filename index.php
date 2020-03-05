@@ -23,10 +23,14 @@
             <a aria-haspopup="true" class="sidenav-trigger" data-target="mobile-nav" href="#">
                 <i class="material-icons">menu</i>
             </a>
-            <!-- Links -->
+            <!-- Left Links -->
             <ul class="left hide-on-med-and-down">
                 <li><a href="views/artists/list.php">Artistes</a></li>
                 <li><a href="views/discs/list.php">Disques</a></li>
+            </ul>
+            <!-- Right Links -->
+            <ul class="right hide-on-med-and-down">
+                <li><a href="controllers/auth/logout.php">Déconnexion</a></li>
             </ul>
         </div>
 
@@ -36,6 +40,8 @@
                 <li><a href="index.php">Accueil</a></li>
                 <li><a href="views/artists/list.php">Artistes</a></li>
                 <li><a href="views/discs/list.php">Disques</a></li>
+                <li><div class="divider"></div></li>
+                <li><a href="controllers/auth/logout.php">Déconnexion</a></li>
             </ul>
         </div>
     </nav>
