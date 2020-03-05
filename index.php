@@ -30,7 +30,12 @@
             </ul>
             <!-- Right Links -->
             <ul class="right hide-on-med-and-down">
-                <li><a href="controllers/auth/logout.php">Déconnexion</a></li>
+                <?php if (!isset($_SESSION["connected"])) : ?>
+                    <li><a href="views/auth/signup.php">Créer un compte</a></li>
+                    <li><a href="views/auth/login.php">Connexion</a></li>
+                <?php else: ?>
+                    <li><a href="controllers/auth/logout.php">Déconnexion</a></li>
+                <?php endif; ?>
             </ul>
         </div>
 
@@ -40,8 +45,15 @@
                 <li><a href="index.php">Accueil</a></li>
                 <li><a href="views/artists/list.php">Artistes</a></li>
                 <li><a href="views/discs/list.php">Disques</a></li>
-                <li><div class="divider"></div></li>
-                <li><a href="controllers/auth/logout.php">Déconnexion</a></li>
+                <li>
+                    <div class="divider"></div>
+                </li>
+                <?php if (!isset($_SESSION["connected"])) : ?>
+                    <li><a href="views/auth/signup.php">Créer un compte</a></li>
+                    <li><a href="views/auth/login.php">Connexion</a></li>
+                <?php else: ?>
+                    <li><a href="controllers/auth/logout.php">Déconnexion</a></li>
+                <?php endif; ?>
             </ul>
         </div>
     </nav>

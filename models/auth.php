@@ -34,25 +34,29 @@ class Auth
     }
 
     /**
-     * @return array The users email
+     * @param string $userEmail The user email
+     * @return bool True if the email has been found otherwise it returns false
      */
-    public function getUsersEmail(): array
+    public function hasSameEmail(string $userEmail): bool
     {
         try {
             // The SELECT request
-            $request = "SELECT user_email from user";
+            $request = "SELECT user_email from user WHERE user_email = :user_email";
 
             // Executes the query
-            $query = $this->pdo->query($request);
+            $stmt = $this->pdo->prepare($request);
 
-            // Fetches all the users email
-            $usersEmail = $query->fetchAll();
+            // Binds the param to the request
+            $stmt->bindParam(':user_email', $userEmail, PDO::PARAM_STR);
+
+            // Fetches the user email if there is any
+            $userEmail = $stmt->fetch();
 
             // Close the cursor
-            $query->closeCursor();
+            $stmt->closeCursor();
 
-            // Return the users email
-            return $usersEmail;
+            // Returns true if the email has been found otherwise it returns false
+            return boolval($userEmail);
         } catch (Exception $e) {
             die($e->getMessage());
         }

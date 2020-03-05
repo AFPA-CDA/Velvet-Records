@@ -7,13 +7,6 @@ require_once "models/disc.php";
 // Starts the session
 session_start();
 
-if (!isset($_SESSION["connected"])) {
-    header("Location: views/auth/login.php");
-}
-
-/* -------------------------------------------------------------------------------- */
-
-
 /* Database Section */
 
 // Creates a new Artist model instance

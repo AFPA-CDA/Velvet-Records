@@ -57,10 +57,10 @@
                         S'inscire
                         <i class="material-icons right">send</i>
                     </button>
-                    <button class="btn red waves-effect waves-light" type="reset">
-                        Annuler
+                    <a class="btn red waves-effect waves-light" href="../../index.php">
+                        Retour
                         <i class="material-icons right">cancel</i>
-                    </button>
+                    </a>
                 </div>
             </div>
         </form>
@@ -68,6 +68,7 @@
 </main>
 
 <?php include_once "../templates/footer.php" ?>
+<!-- TODO: Create JS for thoses forms -->
 <!--<script src="../../assets/js/vendors/sweetalert2.min.js"></script>
 <script src="../../assets/js/discs/form.js"></script>-->
 </body>
