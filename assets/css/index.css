@@ -13,13 +13,19 @@ h2 {
     object-fit: cover;
 }
 
-/* label focus color */
-.input-field input[type=text]:focus + label {
+.card-action > a {
+    width: 100%;
+}
+
+/* Label focus color */
+.input-field input[type=text]:focus + label,
+.input-field input[type=password]:focus + label {
     color: #ff5722 !important;
 }
 
-/* label underline focus color */
-.input-field input[type=text]:focus {
+/* Label underline focus color */
+.input-field input[type=text]:focus,
+.input-field input[type=password]:focus {
     border-bottom: 1px solid #ff5722 !important;
     box-shadow: 0 1px 0 0 #ff5722 !important;
 }
@@ -47,11 +53,6 @@ ul.dropdown-content.select-dropdown li span:hover {
 
 #artistName {
     margin-bottom: 5%;
-}
-
-/* Makes the detail button full width */
-#detailsButton {
-    width: 100%;
 }
 
 /* Makes the preview image full width */

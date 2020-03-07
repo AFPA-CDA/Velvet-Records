@@ -11,9 +11,6 @@ session_start();
 // Sets the page's title
 $title = "Velvet Records - Liste des disques de l'artiste";
 
-/* -------------------------------------------------------------------------------- */
-
-
 /* Database Section */
 
 // Creates a new Artist model instace

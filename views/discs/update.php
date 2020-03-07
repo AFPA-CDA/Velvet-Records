@@ -15,9 +15,7 @@
                 <div class="col s12 input-field">
                     <label for="title">Titre</label>
                     <input name="title" id="title" type="text" value="<?= $discDetails->disc_title ?>">
-                    <span class="helper-text red-text">
-                        <?= isset($formErrors["title"]) ? $formErrors["title"] : "" ?>
-                    </span>
+                    <span class="helper-text red-text"><?= $formErrors["title"] ?? "" ?></span>
                 </div>
             </div>
             <!-- Second Row -->
@@ -33,9 +31,7 @@
                         <?php endforeach; ?>
                     </select>
                     <label for="artists">Artiste</label>
-                    <span class="helper-text red-text" id="artistsError">
-                        <?= isset($formErrors["artists"]) ? $formErrors["artists"] : "" ?>
-                    </span>
+                    <span class="helper-text red-text" id="artistsError"><?= $formErrors["artists"] ?? "" ?></span>
                 </div>
             </div>
             <!-- Third Row -->
@@ -43,9 +39,7 @@
                 <div class="col s12 input-field">
                     <label for="year">Année</label>
                     <input name="year" id="year" type="text" value="<?= $discDetails->disc_year ?>">
-                    <span class="helper-text red-text">
-                        <?= isset($formErrors["year"]) ? $formErrors["year"] : "" ?>
-                    </span>
+                    <span class="helper-text red-text"><?= $formErrors["year"] ?? "" ?></span>
                 </div>
             </div>
             <!-- Fourth Row -->
@@ -53,9 +47,7 @@
                 <div class="col s12 input-field">
                     <label for="genre">Genre</label>
                     <input name="genre" id="genre" type="text" value="<?= $discDetails->disc_genre ?>">
-                    <span class="helper-text red-text">
-                        <?= isset($formErrors["genre"]) ? $formErrors["genre"] : "" ?>
-                    </span>
+                    <span class="helper-text red-text"><?= $formErrors["genre"] ?? "" ?></span>
                 </div>
             </div>
             <!-- Fifth Row -->
@@ -63,9 +55,7 @@
                 <div class="col s12 input-field">
                     <label for="label">Label</label>
                     <input name="label" id="label" type="text" value="<?= $discDetails->disc_label ?>">
-                    <span class="helper-text red-text">
-                        <?= isset($formErrors["label"]) ? $formErrors["label"] : "" ?>
-                    </span>
+                    <span class="helper-text red-text"><?= $formErrors["label"] ?? "" ?></span>
                 </div>
             </div>
             <!-- Sixth Row -->
@@ -73,9 +63,7 @@
                 <div class="col s12 input-field">
                     <label for="price">Prix</label>
                     <input name="price" id="price" type="text" value="<?= $discDetails->disc_price ?>">
-                    <span class="helper-text red-text">
-                        <?= isset($formErrors["price"]) ? $formErrors["price"] : "" ?>
-                    </span>
+                    <span class="helper-text red-text"><?= $formErrors["price"] ?? "" ?></span>
                 </div>
             </div>
             <!-- Seventh Row -->
@@ -89,12 +77,8 @@
                         <label for="filePath"></label>
                         <input class="file-path" name="filePath" id="filePath" type="text"
                                value="<?= $discDetails->disc_picture ?>">
-                        <span class="helper-text red-text">
-                            <?= isset($formErrors["filePath"]) ? $formErrors["filePath"] : "" ?>
-                        </span>
-                        <span class="helper-text red-text">
-                            <?= isset($formErrors["image"]) ? $formErrors["image"] : "" ?>
-                        </span>
+                        <span class="helper-text red-text"><?= $formErrors["filePath"] ?? "" ?></span>
+                        <span class="helper-text red-text"><?= $formErrors["image"] ?? "" ?></span>
                     </div>
                 </div>
             </div>

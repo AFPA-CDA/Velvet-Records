@@ -6,6 +6,11 @@ require_once "../../models/auth.php";
 // Starts the session
 session_start();
 
+// If the user is connected he gets redirected to the index
+if ($_SESSION["connected"]) {
+    header("Location: ../../index.php");
+}
+
 /* Page Variables Section */
 
 // Sets the page's title

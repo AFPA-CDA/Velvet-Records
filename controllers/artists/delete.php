@@ -7,7 +7,7 @@ require_once "../../models/artist.php";
 session_start();
 
 // If the user is connected
-if ($_SESSION["connected"] === true) {
+if ($_SESSION["connected"]) {
     // Creates a new Artist model instance
     $artist = new Artist();
 
@@ -32,4 +32,5 @@ if ($_SESSION["connected"] === true) {
     // If the user is not connected he gets redirected to the login page
     header("Location: ../../views/auth/login.php");
 }
+
 

@@ -7,7 +7,7 @@ require_once "../../models/artist.php";
 session_start();
 
 // If the user is not connected he gets redirected to the login page
-if ($_SESSION["connected"] !== true) {
+if (!$_SESSION["connected"]) {
     header("Location: ../../views/auth/login.php");
 }
 

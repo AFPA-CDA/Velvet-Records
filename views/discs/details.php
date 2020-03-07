@@ -84,21 +84,23 @@
             </a>
             <ul>
                 <li><a class="waves-effect waves-light" href="list.php"><i class="material-icons">undo</i></a></li>
-                <li>
-                    <a class="waves-effect waves-light" href="update.php?disc_id=<?= $discDetails->disc_id ?>">
-                        <i class="material-icons">edit</i>
-                    </a>
-                </li>
-                <li>
-                    <a
-                        class="btn waves-effect waves-light"
-                        data-id="<?=$discDetails->disc_id ?>"
-                        href="../../controllers/discs/delete.php?disc_id=<?= $discDetails->disc_id ?>"
-                        id="deleteButton"
-                    >
-                        <i class="material-icons">delete_forever</i>
-                    </a>
-                </li>
+                <?php if ($_SESSION["connected"]): ?>
+                    <li>
+                        <a class="waves-effect waves-light" href="update.php?disc_id=<?= $discDetails->disc_id ?>">
+                            <i class="material-icons">edit</i>
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            class="btn waves-effect waves-light"
+                            data-id="<?= $discDetails->disc_id ?>"
+                            href="../../controllers/discs/delete.php?disc_id=<?= $discDetails->disc_id ?>"
+                            id="deleteButton"
+                        >
+                            <i class="material-icons">delete_forever</i>
+                        </a>
+                    </li>
+                <?php endif; ?>
             </ul>
         </div>
     </div>

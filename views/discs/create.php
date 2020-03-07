@@ -96,10 +96,10 @@
                         Envoyer
                         <i class="material-icons right">send</i>
                     </button>
-                    <button class="btn red waves-effect waves-light" type="reset">
-                        Annuler
-                        <i class="material-icons right">cancel</i>
-                    </button>
+                    <a class="btn red waves-effect waves-light" href="list.php">
+                        Retour
+                        <i class="material-icons right">undo</i>
+                    </a>
                 </div>
             </div>
         </form>

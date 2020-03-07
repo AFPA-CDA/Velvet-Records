@@ -29,7 +29,7 @@
                     </button>
                     <a class="btn red waves-effect waves-light" href="list.php">
                         Retour
-                        <i class="material-icons right">keyboard_backspace</i>
+                        <i class="material-icons right">undo</i>
                     </a>
                 </div>
             </div>

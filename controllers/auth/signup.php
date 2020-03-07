@@ -7,7 +7,7 @@ require_once "../../models/auth.php";
 session_start();
 
 // If the user is connected he gets redirected to the index
-if (isset($_SESSION["connected"])) {
+if ($_SESSION["connected"]) {
     header("Location: ../../index.php");
 }
 

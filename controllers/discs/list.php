@@ -1,13 +1,15 @@
 <?php
 require_once "../../models/disc.php";
 
+/* Session Section */
+
+// Starts the session
+session_start();
+
 /* Page Variables Section */
 
 // Sets the page's title
 $title = "Velvet Records - Liste des disques";
-
-/* -------------------------------------------------------------------------------- */
-
 
 /* Database Section */
 
