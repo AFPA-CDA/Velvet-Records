@@ -47,11 +47,13 @@
         <?php endforeach; ?>
     </div>
 
-    <div class="fixed-action-btn">
-        <a class="btn-floating btn-large deep-orange lighten-1" href="create.php">
-            <i class="material-icons">add</i>
-        </a>
-    </div>
+    <?php if ($_SESSION["connected"]): ?>
+        <div class="fixed-action-btn">
+            <a class="btn-floating btn-large deep-orange lighten-1" href="create.php">
+                <i class="material-icons">add</i>
+            </a>
+        </div>
+    <?php endif; ?>
 </main>
 
 <?php include_once "../templates/footer.php" ?>

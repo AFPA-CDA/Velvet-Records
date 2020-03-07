@@ -23,10 +23,19 @@
             <a aria-haspopup="true" class="sidenav-trigger" data-target="mobile-nav" href="#">
                 <i class="material-icons">menu</i>
             </a>
-            <!-- Links -->
+            <!-- Left Links -->
             <ul class="left hide-on-med-and-down">
                 <li><a href="views/artists/list.php">Artistes</a></li>
                 <li><a href="views/discs/list.php">Disques</a></li>
+            </ul>
+            <!-- Right Links -->
+            <ul class="right hide-on-med-and-down">
+                <?php if (!isset($_SESSION["connected"])) : ?>
+                    <li><a href="views/auth/signup.php">Créer un compte</a></li>
+                    <li><a href="views/auth/login.php">Connexion</a></li>
+                <?php else: ?>
+                    <li><a href="controllers/auth/logout.php">Déconnexion</a></li>
+                <?php endif; ?>
             </ul>
         </div>
 
@@ -36,14 +45,30 @@
                 <li><a href="index.php">Accueil</a></li>
                 <li><a href="views/artists/list.php">Artistes</a></li>
                 <li><a href="views/discs/list.php">Disques</a></li>
+                <li>
+                    <div class="divider"></div>
+                </li>
+                <?php if (!isset($_SESSION["connected"])) : ?>
+                    <li><a href="views/auth/signup.php">Créer un compte</a></li>
+                    <li><a href="views/auth/login.php">Connexion</a></li>
+                <?php else: ?>
+                    <li><a href="controllers/auth/logout.php">Déconnexion</a></li>
+                <?php endif; ?>
             </ul>
         </div>
     </nav>
 </header>
 
 <main role="main">
+    <?php if (isset($_SESSION["connected"])): ?>
+        <section class="section" role="region">
+            <h1 class="center-align">
+                Bienvenue <?= "{$_SESSION['firstname']} {$_SESSION['lastname']}" ?>
+            </h1>
+        </section>
+    <?php endif; ?>
     <section class="section" role="region">
-        <h1 class="center-align">Nouveaux Artistes</h1>
+        <h2 class="center-align">Nouveaux Artistes</h2>
         <div class="row">
             <?php foreach ($artists as $artist): ?>
                 <div class="col s12 m4">
@@ -69,7 +94,7 @@
         </div>
     </section>
     <section class="section" role="region">
-        <h1 class="center-align">Nouveaux Disques</h1>
+        <h2 class="center-align">Nouveaux Disques</h2>
         <div class="row">
             <?php foreach ($discs as $disc): ?>
                 <div class="col s12 m4">

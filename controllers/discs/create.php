@@ -2,6 +2,17 @@
 require_once "../../models/disc.php";
 require_once "../../models/artist.php";
 
+/* Session Section */
+
+// Starts the session
+session_start();
+
+// If the user is not connected
+if (!$_SESSION["connected"]) {
+    // Redirects the user to the disc lists page
+    header("Location: ../../views/discs/list.php");
+}
+
 /* Page Variables Section */
 
 // Here lies the regexes used for this form
@@ -13,9 +24,6 @@ const IS_YEAR = "/^(19|20)\d{2}$/";
 // Sets the page's title
 $title = "Velvet Records - Ajout d'un disque";
 
-/* -------------------------------------------------------------------------------- */
-
-
 /* Database Section */
 
 // Creates a new Artist model instance
@@ -26,9 +34,6 @@ $disc = new Disc();
 
 // Get all artists ordered by their name
 $artists = $artist->getArtistsOrderByName();
-
-/* -------------------------------------------------------------------------------- */
-
 
 /* Form Handling Section */
 

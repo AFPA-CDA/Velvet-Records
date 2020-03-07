@@ -14,9 +14,11 @@
             <div class="col s12 m4">
                 <div class="card">
                     <div class="card-content">
-                        <a href="update.php?artist_id=<?= $artist->artist_id ?>">
-                            <span class="badge"><i class="material-icons">edit</i></span>
-                        </a>
+                        <?php if ($_SESSION["connected"]): ?>
+                            <a href="update.php?artist_id=<?= $artist->artist_id ?>">
+                                <span class="badge"><i class="material-icons">edit</i></span>
+                            </a>
+                        <?php endif; ?>
                         <div class="center-align row">
                             <span class="card-title">
                                 <b><?= $artist->artist_name ?></b>
@@ -30,25 +32,29 @@
                         >
                             Détails
                         </a>
-                        <a
-                            class="btn red waves-effect waves-light"
-                            data-id="<?= $artist->artist_id ?>"
-                            href="../../controllers/artists/delete.php?artist_id=<?= $artist->artist_id ?>"
-                            id="deleteButton<?= $artist->artist_id ?>"
-                        >
-                            Supprimer
-                        </a>
+                        <?php if ($_SESSION["connected"]): ?>
+                            <a
+                                class="btn red waves-effect waves-light"
+                                data-id="<?= $artist->artist_id ?>"
+                                href="../../controllers/artists/delete.php?artist_id=<?= $artist->artist_id ?>"
+                                id="deleteButton<?= $artist->artist_id ?>"
+                            >
+                                Supprimer
+                            </a>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
         <?php endforeach; ?>
     </div>
 
-    <div class="fixed-action-btn">
-        <a class="btn-floating btn-large deep-orange lighten-1" href="create.php">
-            <i class="material-icons">add</i>
-        </a>
-    </div>
+    <?php if ($_SESSION["connected"]): ?>
+        <div class="fixed-action-btn">
+            <a class="btn-floating btn-large deep-orange lighten-1" href="create.php">
+                <i class="material-icons">add</i>
+            </a>
+        </div>
+    <?php endif; ?>
 </main>
 
 <?php include_once "../templates/footer.php" ?>

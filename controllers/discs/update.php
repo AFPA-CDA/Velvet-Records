@@ -2,6 +2,17 @@
 require_once "../../models/artist.php";
 require_once "../../models/disc.php";
 
+/* Session Section */
+
+// Starts the session
+session_start();
+
+// If the user is not connected
+if (!$_SESSION["connected"]) {
+    // He gets redirected to the discs list page
+    header("Location: ../../views/discs/list.php");
+}
+
 /* Page Variables Section */
 
 // Here lies the regexes used for this form
@@ -12,9 +23,6 @@ const IS_YEAR = "/^(19|20)\d{2}$/";
 
 // Sets the page's title
 $title = "Velvet Records - Modification du disque";
-
-/* -------------------------------------------------------------------------------- */
-
 
 /* Database Section */
 
@@ -32,9 +40,6 @@ $discId = filter_input(INPUT_GET, 'disc_id', FILTER_SANITIZE_NUMBER_INT);
 
 // Returns the disc details
 $discDetails = $disc->getDiscDetails($discId);
-
-/* -------------------------------------------------------------------------------- */
-
 
 /* Form Handling Section */
 

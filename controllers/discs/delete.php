@@ -1,22 +1,33 @@
 <?php
 require_once "../../models/disc.php";
 
-/* Database Section */
+/* Session Section */
 
-// Creates a new Disc model instance
-$disc = new Disc();
+// Starts the session
+session_start();
 
-// Filters the input to make sure it is safe to use
-$discId = filter_input(INPUT_GET, "disc_id", FILTER_SANITIZE_NUMBER_INT);
+// If the user is not connected
+if ($_SESSION["connected"]) {
+    // Creates a new Disc model instance
+    $disc = new Disc();
 
-// Get disc details
-$discDetails = $disc->getDiscDetails($discId);
+    // Filters the input to make sure it is safe to use
+    $discId = filter_input(INPUT_GET, "disc_id", FILTER_SANITIZE_NUMBER_INT);
 
-// Deletes the disc picture from the server
-unlink(realpath("../../assets/img/{$discDetails->disc_picture}"));
+    // Get disc details
+    $discDetails = $disc->getDiscDetails($discId);
 
-// Deletes the disc with the given discId
-$disc->deleteDisc($discId);
+    // Deletes the disc picture from the server
+    unlink(realpath("../../assets/img/{$discDetails->disc_picture}"));
 
-// Redirects the user to the discs list page
-header("Location: ../../views/discs/list.php");
+    // Deletes the disc with the given discId
+    $disc->deleteDisc($discId);
+
+    // Redirects the user to the discs list page
+    header("Location: ../../views/discs/list.php");
+
+} else {
+    // He gets redirected to the login page
+    header("Location: ../../views/auth/login.php");
+}
+

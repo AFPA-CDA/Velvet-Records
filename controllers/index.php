@@ -2,6 +2,11 @@
 require_once "models/artist.php";
 require_once "models/disc.php";
 
+/* Session Section */
+
+// Starts the session
+session_start();
+
 /* Database Section */
 
 // Creates a new Artist model instance

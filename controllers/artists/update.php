@@ -1,6 +1,16 @@
 <?php
 require_once "../../models/artist.php";
 
+/* Session Section */
+
+// Starts the session
+session_start();
+
+// If the user is not connected he gets redirected to the login page
+if (!$_SESSION["connected"]) {
+    header("Location: ../../views/auth/login.php");
+}
+
 /* Page Variables Section */
 
 // Here lies the regexes used for this form
@@ -9,9 +19,6 @@ const IS_NOT_DANGEROUS = "/^[^<>&]+$/i";
 // Sets the page's title
 $title = "Velvet Records - Mise à jour d'un artiste";
 
-/* -------------------------------------------------------------------------------- */
-
-
 /* Database Section */
 
 // Creates a new Artist model instance
@@ -19,9 +26,6 @@ $artist = new Artist();
 
 // Gets and filters the artist ID
 $artistId = filter_input(INPUT_GET, "artist_id", FILTER_SANITIZE_NUMBER_INT);
-
-/* -------------------------------------------------------------------------------- */
-
 
 /* Form Handling Section */
 
@@ -32,7 +36,7 @@ $artistName = "";
 $formErrors = [];
 
 // If the request method used is POST
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // If the value is set
     if (!empty($_POST["name"])) {
         if (preg_match(IS_NOT_DANGEROUS, $_POST["name"])) {
@@ -44,6 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $formErrors["name"] = "Vous devez choisir un artiste.";
     }
+
     // Checks that there is no error and that the mime type is allowed
     if (empty($formErrors)) {
         // Updates the currenta artist in the database with the form inputs
