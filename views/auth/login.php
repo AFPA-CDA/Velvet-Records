@@ -14,7 +14,8 @@
             <div class="row">
                 <div class="col s12 input-field">
                     <label for="email">Email</label>
-                    <input name="email" id="email" type="email">
+                    <input name="email" id="email" type="email" value="<?= $_POST['email'] ?? '' ?>">
+                    <span class="helper-text red-text"><?= $formErrors["email"] ?? "" ?></span>
                 </div>
             </div>
             <!-- Second Row -->
@@ -22,6 +23,7 @@
                 <div class="col s12 input-field">
                     <label for="password">Mot de passe</label>
                     <input name="password" id="password" type="password">
+                    <span class="helper-text red-text"><?= $formErrors["password"] ?? "" ?></span>
                 </div>
             </div>
             <!-- Third Row -->
@@ -31,10 +33,10 @@
                         Envoyer
                         <i class="material-icons right">send</i>
                     </button>
-                    <button class="btn red waves-effect waves-light" type="reset">
-                        Annuler
-                        <i class="material-icons right">cancel</i>
-                    </button>
+                    <a class="btn red waves-effect waves-light" href="../../index.php">
+                        Retour
+                        <i class="material-icons right">keyboard_backspace</i>
+                    </a>
                 </div>
             </div>
         </form>

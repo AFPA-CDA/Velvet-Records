@@ -6,7 +6,7 @@ class Database
     const DB_HOST = "localhost";
     const DB_NAME = "record";
     const DB_USER = "root";
-    const DB_PASSWORD = "root";
+    const DB_PASSWORD = "10495";
     const DB_OPTIONS = [
         // Leave column names as returned by the database driver
         PDO::ATTR_CASE => PDO::CASE_NATURAL,

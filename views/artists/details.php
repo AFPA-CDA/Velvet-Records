@@ -33,10 +33,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-action">
+                    <div class="card-action" id="detailsButton">
                         <a
                             class="btn deep-orange lighten-1"
-                            id="detailsButton"
                             href="../discs/details.php?disc_id=<?= $disc->disc_id ?>"
                         >
                             Détails

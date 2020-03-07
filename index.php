@@ -60,8 +60,15 @@
 </header>
 
 <main role="main">
+    <?php if (isset($_SESSION["connected"])): ?>
+        <section class="section" role="region">
+            <h1 class="center-align">
+                Bienvenue <?= "{$_SESSION['firstname']} {$_SESSION['lastname']}" ?>
+            </h1>
+        </section>
+    <?php endif; ?>
     <section class="section" role="region">
-        <h1 class="center-align">Nouveaux Artistes</h1>
+        <h2 class="center-align">Nouveaux Artistes</h2>
         <div class="row">
             <?php foreach ($artists as $artist): ?>
                 <div class="col s12 m4">
@@ -87,7 +94,7 @@
         </div>
     </section>
     <section class="section" role="region">
-        <h1 class="center-align">Nouveaux Disques</h1>
+        <h2 class="center-align">Nouveaux Disques</h2>
         <div class="row">
             <?php foreach ($discs as $disc): ?>
                 <div class="col s12 m4">

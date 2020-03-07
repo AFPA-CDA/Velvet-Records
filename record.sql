@@ -62,9 +62,9 @@ VALUES (1, 'Fugazi', 1984, 'Fugazi.jpeg', 'EMI', 'Prog', 14.99, 7),
 
 CREATE TABLE user
 (
-    user_id        INT PRIMARY KEY AUTO_INCREMENT,
-    user_email     VARCHAR(255) UNIQUE NOT NULL,
-    user_firstname VARCHAR(255)        NOT NULL,
-    user_lastname  VARCHAR(255)        NOT NULL,
-    user_password  VARCHAR(255)        NOT NULL
-)
+    user_id             INT PRIMARY KEY AUTO_INCREMENT,
+    user_email          VARCHAR(255) UNIQUE NOT NULL,
+    user_firstname      VARCHAR(255)        NOT NULL,
+    user_lastname       VARCHAR(255)        NOT NULL,
+    user_password       VARCHAR(255)        NOT NULL
+);

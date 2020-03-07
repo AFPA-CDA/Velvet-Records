@@ -37,7 +37,7 @@ $formErrors = [];
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (!empty($_POST["email"])) {
         if (filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL)) {
-            if (!is_null($auth->hasSameEmail($_POST["email"]))) {
+            if ($auth->hasSameEmail($_POST["email"])) {
                 $formErrors["email"] = "Cet email est déjà pris";
             } else {
                 $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
@@ -105,11 +105,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             ":user_email" => $email
         ]);
 
-        // Makes the new created user connected
+        // Makes the user connected and stores his full name in session
         $_SESSION["connected"] = true;
+        $_SESSION["firstname"] = $firstname;
+        $_SESSION["lastname"] = $lastname;
 
-        // Regenerates the id for security puroposes
-        session_regenerate_id(true);
+        // Regenerates the session ID for security puroposes
+        session_regenerate_id();
 
         // Redirects to the main page
         header("Location: ../../index.php");

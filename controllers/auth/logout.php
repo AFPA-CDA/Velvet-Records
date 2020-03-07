@@ -6,8 +6,8 @@
 session_start();
 
 // Unsets the auth fields
-unset($_SESSION["email"]);
-unset($_SESSION["password"]);
+unset($_SESSION["firstname"]);
+unset($_SESSION["lastname"]);
 unset($_SESSION["connected"]);
 
 // If the session uses cookies

@@ -1,6 +1,16 @@
 <?php
 require_once "../../models/artist.php";
 
+/* Session Section */
+
+// Starts the session
+session_start();
+
+// If the user is not connected he gets redirected to the login page
+if ($_SESSION["connected"] !== true) {
+    header("Location: ../../views/auth/login.php");
+}
+
 /* Page Variables Section */
 
 // Here lies the regexes used for this form
@@ -9,16 +19,10 @@ const IS_NOT_DANGEROUS = "/^[^<>&]+$/i";
 // Sets the page's title
 $title = "Velvet Records - Ajout d'un artiste";
 
-/* -------------------------------------------------------------------------------- */
-
-
 /* Database Section */
 
 // Creates a new Artist model instance
 $artist = new Artist();
-
-/* -------------------------------------------------------------------------------- */
-
 
 /* Form Handling Section */
 
@@ -29,7 +33,7 @@ $artistName = "";
 $formErrors = [];
 
 // If the request method used is POST
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // If the value is set
     if (!empty($_POST["name"])) {
         if (preg_match(IS_NOT_DANGEROUS, $_POST["name"])) {

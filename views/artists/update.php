@@ -13,10 +13,10 @@
             <!-- First Row -->
             <div class="row">
                 <div class="col s12 input-field">
-                    <label for="name">Titre</label>
+                    <label for="name">Nom de l'artiste</label>
                     <input name="name" id="name" type="text" value="<?= $_POST['name'] ?? '' ?>">
                     <span class="helper-text red-text">
-                        <?= isset($formErrors["name"]) ? $formErrors["name"] : "" ?>
+                        <?= $formErrors["name"] ?? "" ?>
                     </span>
                 </div>
             </div>
@@ -27,10 +27,10 @@
                         Envoyer
                         <i class="material-icons right">send</i>
                     </button>
-                    <button class="btn red waves-effect waves-light" type="reset">
-                        Annuler
-                        <i class="material-icons right">cancel</i>
-                    </button>
+                    <a class="btn red waves-effect waves-light" href="list.php">
+                        Retour
+                        <i class="material-icons right">keyboard_backspace</i>
+                    </a>
                 </div>
             </div>
         </form>

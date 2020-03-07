@@ -15,7 +15,9 @@
                 <div class="card">
                     <div class="card-content">
                         <a href="update.php?artist_id=<?= $artist->artist_id ?>">
-                            <span class="badge"><i class="material-icons">edit</i></span>
+                            <?php if ($_SESSION["connected"] === true): ?>
+                                <span class="badge"><i class="material-icons">edit</i></span>
+                            <?php endif; ?>
                         </a>
                         <div class="center-align row">
                             <span class="card-title">
@@ -30,14 +32,16 @@
                         >
                             Détails
                         </a>
-                        <a
-                            class="btn red waves-effect waves-light"
-                            data-id="<?= $artist->artist_id ?>"
-                            href="../../controllers/artists/delete.php?artist_id=<?= $artist->artist_id ?>"
-                            id="deleteButton<?= $artist->artist_id ?>"
-                        >
-                            Supprimer
-                        </a>
+                        <?php if ($_SESSION["connected"] === true): ?>
+                            <a
+                                class="btn red waves-effect waves-light"
+                                data-id="<?= $artist->artist_id ?>"
+                                href="../../controllers/artists/delete.php?artist_id=<?= $artist->artist_id ?>"
+                                id="deleteButton<?= $artist->artist_id ?>"
+                            >
+                                Supprimer
+                            </a>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

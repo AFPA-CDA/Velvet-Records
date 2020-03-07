@@ -1,6 +1,11 @@
 <?php
 require_once "../../models/artist.php";
 
+/* Session Section */
+
+// Starts the session
+session_start();
+
 /* Page Variables Section */
 
 // Sets the page's title
