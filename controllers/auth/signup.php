@@ -14,7 +14,7 @@ if ($_SESSION["connected"]) {
 /* Page Variables Section */
 
 // Here lies the regex used for this form
-const IS_VALID_PASSWORD = "/^(?=.+[a-z])(?=.+[A-Z])(?=.+[!@#\$%\^&\*])(?=.+\d)\S{8,}$/";
+const IS_VALID_PASSWORD = "/^(?=.+[a-z])(?=.+[A-Z])(?=.+\W)(?=.+\d)\S{8,}$/";
 const IS_VALID_STRING = "/^[\wÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ'’\s-]+$/i";
 
 // Sets the page's title
@@ -109,6 +109,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $_SESSION["connected"] = true;
         $_SESSION["firstname"] = $firstname;
         $_SESSION["lastname"] = $lastname;
+
+        // If there aren't any crsf_token
+        if (empty($_SESSION["crsf_token"])) {
+            // Creates a crsf_token with a random generated value
+            $_SESSION["crsf_token"] = bin2hex(random_bytes(32));
+        }
 
         // Regenerates the session ID for security puroposes
         session_regenerate_id();

@@ -46,12 +46,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $formErrors["name"] = "Vous devez choisir un artiste.";
     }
 
-    // Checks that there is no error and that the mime type is allowed
-    if (empty($formErrors)) {
-        // Creates and inserts a artist in the database with the form inputs
-        $artist->createArtist([":artist_name" => $artistName]);
+    // Checks that there is no error and that the crsf token isn't empty
+    if (empty($formErrors) && !empty($_SESSION["crsf_token"])) {
+        // If the CRSF tokens are equal
+        if (hash_equals($_SESSION["crsf_token"], $_POST["crsf_token"])) {
+            // Creates and inserts a artist in the database with the form inputs
+            $artist->createArtist([":artist_name" => $artistName]);
 
-        // Redirects the user to the discs list view
-        header("Location: ../../views/artists/list.php");
+            // Redirects the user to the discs list view
+            header("Location: ../../views/artists/list.php");
+        }
     }
 }

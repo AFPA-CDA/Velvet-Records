@@ -156,20 +156,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($_FILES["image"]["error"])) {
         // If the user don't give an image we keep the old one
         if ($_FILES["image"]["error"] === UPLOAD_ERR_NO_FILE && empty($formErrors)) {
-            // Updates the disc with the form data given by the user
-            $disc->updateDisc([
-                ":year" => $year,
-                ":picture" => $discDetails->disc_picture,
-                ":label" => $label,
-                ":title" => $title,
-                ":genre" => $genre,
-                ":price" => $price,
-                ":artist_id" => $artistId,
-                ":disc_id" => $discId
-            ]);
+            // If the crsf token isn't empty
+            if (!empty($_SESSION["crsf_token"])) {
+                // If the CRSF tokens are equal
+                if (hash_equals($_SESSION["crsf_token"], $_POST["crsf_token"])) {
+                    // Updates the disc with the form data given by the user
+                    $disc->updateDisc([
+                        ":year" => $year,
+                        ":picture" => $discDetails->disc_picture,
+                        ":label" => $label,
+                        ":title" => $title,
+                        ":genre" => $genre,
+                        ":price" => $price,
+                        ":artist_id" => $artistId,
+                        ":disc_id" => $discId
+                    ]);
 
-            // Redirects the user to the discs list view
-            header("Location: ../../views/discs/list.php");
+                    // Redirects the user to the discs list view
+                    header("Location: ../../views/discs/list.php");
+                }
+            }
         }
 
         // If the error is not a UPLOAD_ERR_NO_FILE error or UPLOAD_ERR_OK
@@ -181,30 +187,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Checks that there is no error in the form and image and that the mime type is allowed
     if ($_FILES["image"]["error"] == UPLOAD_ERR_OK && in_array($mimeType, $allowedMimeTypes) && empty($formErrors)) {
-        $extension = pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION);
-        $path = realpath("../../assets/img/");
-        $name = basename($title);
+        // If the crsf token isn't empty
+       if (!empty($_SESSION["crsf_token"])) {
+           // If the crsf token are equals
+           if (hash_equals($_SESSION["crsf_token"], $_POST["crsf_token"])) {
+               $extension = pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION);
+               $path = realpath("../../assets/img/");
+               $name = basename($title);
 
-        // Moves the new uploaded file to the right img folder
-        move_uploaded_file($_FILES["image"]["tmp_name"], "$path/$name.$extension");
+               // Moves the new uploaded file to the right img folder
+               move_uploaded_file($_FILES["image"]["tmp_name"], "$path/$name.$extension");
 
-        // Deletes the old disc picture from the server
-        unlink(realpath("../../assets/img/{$discDetails->disc_picture}"));
+               // Deletes the old disc picture from the server
+               unlink(realpath("../../assets/img/{$discDetails->disc_picture}"));
 
-        // Updates the disc with the form data given by the user
-        $disc->updateDisc([
-            ":year" => $year,
-            ":picture" => "$name.$extension",
-            ":label" => $label,
-            ":title" => $title,
-            ":genre" => $genre,
-            ":price" => $price,
-            ":artist_id" => $artistId,
-            ":disc_id" => $discId
-        ]);
+               // Updates the disc with the form data given by the user
+               $disc->updateDisc([
+                   ":year" => $year,
+                   ":picture" => "$name.$extension",
+                   ":label" => $label,
+                   ":title" => $title,
+                   ":genre" => $genre,
+                   ":price" => $price,
+                   ":artist_id" => $artistId,
+                   ":disc_id" => $discId
+               ]);
 
-        // Redirects the user to the discs list view
-        header("Location: ../../views/discs/list.php");
+               // Redirects the user to the discs list view
+               header("Location: ../../views/discs/list.php");
+           }
+       }
     }
 }
 

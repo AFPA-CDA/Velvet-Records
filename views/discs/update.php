@@ -10,6 +10,7 @@
     <div class="container">
         <h1 class="center-align">Modification</h1>
         <form enctype="multipart/form-data" method="POST" id="updateDisc">
+            <input type="hidden" name="crsf_token" value="<?= $_SESSION['crsf_token'] ?>">
             <!-- First Row -->
             <div class="row">
                 <div class="col s12 input-field">

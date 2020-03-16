@@ -36,7 +36,8 @@
                             <a
                                 class="btn red waves-effect waves-light"
                                 data-id="<?= $artist->artist_id ?>"
-                                href="../../controllers/artists/delete.php?artist_id=<?= $artist->artist_id ?>"
+                                data-token="<?= $_SESSION['crsf_token'] ?>"
+                                href="../../controllers/artists/delete.php?artist_id=<?= $artist->artist_id ?>&crsf_token=<?= $_SESSION['crsf_token'] ?>"
                                 id="deleteButton<?= $artist->artist_id ?>"
                             >
                                 Supprimer

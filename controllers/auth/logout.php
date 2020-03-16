@@ -5,7 +5,8 @@
 // Starts the session
 session_start();
 
-// Unsets the auth fields
+// Unsets the auth fields and the crsf_token
+unset($_SESSION["crsf_token"]);
 unset($_SESSION["firstname"]);
 unset($_SESSION["lastname"]);
 unset($_SESSION["connected"]);

@@ -10,6 +10,7 @@
     <div class="container">
         <h1 class="center-align">Mettre à jour un Artiste</h1>
         <form method="POST" id="createArtist">
+            <input type="hidden" name="crsf_token" value="<?= $_SESSION['crsf_token'] ?>">
             <!-- First Row -->
             <div class="row">
                 <div class="col s12 input-field">

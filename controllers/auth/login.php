@@ -61,6 +61,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $_SESSION["firstname"] = $user->user_firstname;
                 $_SESSION["lastname"] = $user->user_lastname;
 
+                // If there aren't any crsf_token
+                if (empty($_SESSION["crsf_token"])) {
+                    // Creates a crsf_token with a random generated value
+                    $_SESSION["crsf_token"] = bin2hex(random_bytes(32));
+                }
+
                 // Regenerates the session ID for security purposes
                 session_regenerate_id();
 

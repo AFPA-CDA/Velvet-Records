@@ -94,7 +94,8 @@
                         <a
                             class="btn waves-effect waves-light"
                             data-id="<?= $discDetails->disc_id ?>"
-                            href="../../controllers/discs/delete.php?disc_id=<?= $discDetails->disc_id ?>"
+                            data-token="<?= $_SESSION['crsf_token'] ?>"
+                            href="../../controllers/discs/delete.php?disc_id=<?= $discDetails->disc_id ?>&crsf_token=<?= $_SESSION['crsf_token'] ?>"
                             id="deleteButton"
                         >
                             <i class="material-icons">delete_forever</i>
